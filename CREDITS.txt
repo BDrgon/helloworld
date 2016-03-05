@@ -1,5 +1,5 @@
 -----------------------------------------------------------
-3D Robot probe droid model
+3D Dog poodle model
 
 Authors:
 
