@@ -1,0 +1,70 @@
+# Level bonus:
+# PAC-MAN
+#
+#
+#
+
+
+
+BEGIN
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|B B B B B B B B|B B B B B B B B|
++ +-+-+ +-+-+-+ + +-+-+-+ +-+-+ +
+|V|   |B|     |B|B|     |B|   |V|
++ +-+-+ +-+-+-+ + +-+-+-+ +-+-+ +
+|B B B B B B B B B B B B B B B B|
++ +-+-+ + +-+-+-+-+-+-+ + +-+-+ +
+|B B B B|B B B B|B B B B|B B B B|
++-+-+-+ +-+-+   +   +-+-+ +-+-+-+
+      |B|      C        |B|
+      + + +-+-+ + +-+-+ + +      
+      |B| |           | |B|
++-+-+-+ + +           + + +-+-+-+
+|      B  |           |  B      |
++-+-+-+ + +           + + +-+-+-+
+      |B| |           | |B|
+      + + +-+-+-+-+-+-+ + +-+-+-+
+      |B|               |B|  
++-+-+-+ + +-+-+-+-+-+-+ + +-+-+-+
+|B B B B B B B B|B B B B B B B B|
++ +-+-+ +-+-+-+ + +-+-+-+ +-+-+ +
+|V B B|B B B B R B B B B B|B B V|
++-+-+ + + +-+-+-+-+-+-+ + + +-+-+
+|B B B B|B B B B|B B B B|B B B B|
++ +-+-+-+-+-+-+   +-+-+-+-+-+-+ +
+|B B B B B B B B B B B B B B B B|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+END
+
+
+
+# Decryption challenges match one-to-one
+# with all 'V's above in reading order 
+# (top left to bottom right)
+PROMPT: Decode the following with a key of 10
+CHALLENGETEXT: ZKMWKX
+ANSWERTEXT: PACMAN
+
+# Decryption challenges match one-to-one
+# with all 'V's above in reading order 
+# (top left to bottom right)
+PROMPT: Decode the following with a key of 15 
+CHALLENGETEXT: EPRBPC
+ANSWERTEXT: PACMAN
+
+# Decryption challenges match one-to-one
+# with all 'V's above in reading order 
+# (top left to bottom right)
+PROMPT: Decode the following with a key of -10 
+CHALLENGETEXT: FQSCQD
+ANSWERTEXT: PACMAN
+
+
+# Decryption challenges match one-to-one
+# with all 'V's above in reading order 
+# (top left to bottom right)
+PROMPT: Decode the following with a key of 20
+CHALLENGETEXT: JUWGUH
+ANSWERTEXT: PACMAN
+
+PASSPHRASE: X

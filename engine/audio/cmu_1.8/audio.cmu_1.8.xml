@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package name="audio" version="cmu_1.8" seq="2" patch_version="1">
+    <requires name="panda3d" version="cmu_1.8" seq="1" host="https://runtime.panda3d.org/" />
+    <requires name="openal" version="cmu_1.8" seq="1" host="https://runtime.panda3d.org/" />
+    <uncompressed_archive filename="audio.cmu_1.8.mf" size="22" timestamp="1365945885" hash="ef22d24cc462dcb6bc021418a3e2542c" />
+    <compressed_archive filename="audio.cmu_1.8.mf.1.pz" size="19" timestamp="1365945885" hash="afd5b01fc22dd2dcc78d6e4f18402a61" />
+    <base_version filename="audio.cmu_1.8.mf.base" size="22" timestamp="1365945885" hash="ef22d24cc462dcb6bc021418a3e2542c" />
+    <top_version filename="audio.cmu_1.8.mf" size="22" timestamp="1365945885" hash="ef22d24cc462dcb6bc021418a3e2542c" />
+</package>

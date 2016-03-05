@@ -1,0 +1,13 @@
+-----------------------------------------------------------
+3D Robot probe droid model
+
+Authors:
+
+Original Modeller - Rick Grandy <grick@win.eastlink.ca>
+
+Please visit SCIFI 3D <www.theforce.net/scifi3d/>
+for rules governing use, display of credit, and copyright information.
+
+Lightwave conversion by Ph Choy
+------------------------------------------------------------
+

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<contents>
+    <package name="morepy" platform="win32" version="cmu_1.8" filename="morepy/cmu_1.8/morepy.cmu_1.8.win32.xml" />
+    <package name="panda3d" platform="win32" version="cmu_1.8" filename="panda3d/cmu_1.8/panda3d.cmu_1.8.win32.xml" />
+    <package name="fmod" platform="win32" version="cmu_1.8" filename="fmod/cmu_1.8/fmod.cmu_1.8.win32.xml" />
+    <package name="audio" version="cmu_1.8" filename="audio/cmu_1.8/audio.cmu_1.8.xml" />
+    <package name="images" filename="images/images.xml" />
+    <package name="openal" platform="win32" version="cmu_1.8" filename="openal/cmu_1.8/openal.cmu_1.8.win32.xml" />
+</contents>
