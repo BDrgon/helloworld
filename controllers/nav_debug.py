@@ -1,12 +1,15 @@
-import nav
+from __future__ import absolute_import
+from controllers import nav
 #fake robot class for debugging literally everything
 
 
 class FakeRobot:
     def __init__(self):
-        self.SENSOR_LEFT = "left sensor"
-        self.SENSOR_FRONT = "front sensor"
-        self.SENSOR_RIGHT = "right sensor"
+        pass
+        # bitch where?
+    SENSOR_LEFT = "left sensor"
+    SENSOR_FRONT = "front sensor"
+    SENSOR_RIGHT = "right sensor"
 
     @staticmethod
     def step_forward(steps):

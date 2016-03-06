@@ -13,10 +13,11 @@ class Gps:
         self.robot = bot  # Extend the default robot functions into nav.
 
     def check_scan(self):
-        point = (self.location[0], self.location[1])
+        pos = (self.location[0], self.location[1])
         if self.location[2] == "N":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0] - 1, point[1])
 
@@ -28,6 +29,7 @@ class Gps:
                     x = True  # scanleft
                     self.scan("W", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             x = False
+            point = pos
             while not x:
                 front_point = (point[0], point[1] + 1)
 
@@ -39,6 +41,7 @@ class Gps:
                     x = True  # scanfront
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             x = False
+            point = pos
             while not x:
                 right_point = (point[0] + 1, point[1])
 
@@ -167,23 +170,31 @@ class Gps:
         if cardinal == "N":
             for x in range(steps):
                 self.map[point][0].append((point[0], point[1]+1))
-                point = (point(0), point(1)+1)
+                point = (point[0], point[1]+1)
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
             self.map[point][1].append((point[0], point[1]+1))
         if cardinal == "S":
             for x in range(steps):
                 self.map[point][0].append((point[0], point[1]-1))
-                point = (point(0), point(1)+1)
+                point = (point[0], point[1]-1)
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
             self.map[point][1].append((point[0], point[1]-1))
         if cardinal == "E":
             for x in range(steps):
-                self.map[point][0].append((point[0], point[1]-1))
-                point = (point(0), point(1)+1)
-            self.map[point][1].append((point[0], point[1]-1))
+                self.map[point][0].append((point[0]+1, point[1]))
+                point = (point[0]+1, point[1])
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
+            self.map[point][1].append((point[0]+1, point[1]))
         if cardinal == "W":
-            for x in range(steps):
-                self.map[point][0].append((point[0], point[1]-1))
-                point = (point(0), point(1)+1)
-            self.map[point][1].append((point[0], point[1]-1))
+            for x in range(int(steps)):
+                self.map[point][0].append((point[0]-1, point[1]))
+                point = (point[0]-1, point[1])
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
+            self.map[point][1].append((point[0]-1, point[1]))
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
         if steps == 0:
@@ -201,6 +212,7 @@ class Gps:
             self.location[0] += steps
         elif self.location[2] == "W":  # if facing west, subtract from X-coord
             self.location[0] -= steps
+        self.check_scan()
         return
 
     def step_backward(self, steps):
@@ -231,6 +243,7 @@ class Gps:
                                 self.location[2] == "S" and degree % 4 == 2 or \
                                 self.location[2] == "E" and degree % 4 == 3:
             self.location[2] = "N"
+        self.check_scan()
 
     def turn_right(self, degree):  # Turning right is just turning left in the other direction!
         self.turn_left(-degree)
