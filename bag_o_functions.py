@@ -19,7 +19,7 @@ class bag_o_functions:
                 ]
             }
         assert isinstance(map, Dictionary)
-        DJK(self, (0,0), map, (0,2))
+        print(DJK(self, (0,0), map, (0,2)))
     """
     Dijkstra's algorithm acts over a connected graph: assume a path between location node and target node exists
     path will be represented as a series of nodes in an ordered list: each node is connected to the next in the list
@@ -70,3 +70,4 @@ class bag_o_functions:
                         min=unexplored[t][1]
                 frontier[loc]=unexplored.pop(loc)
         return "fuck" #return something likely to cause an error if for some reason we escape "while true:"
+        
