@@ -55,6 +55,7 @@ class Gps:
         elif self.location[2] == "E":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0], point[1] + 1)
 
@@ -67,6 +68,7 @@ class Gps:
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             # check front
             x = False
+            point = pos
             while not x:
                 front_point = (point[0] + 1, point[1])
 
@@ -79,6 +81,7 @@ class Gps:
                     self.scan("E", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             # check right
             x = False
+            point = pos
             while not x:
                 right_point = (point[0], point[1] - 1)
 
@@ -92,6 +95,7 @@ class Gps:
         elif self.location[2] == "S":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0] + 1, point[1])
 
@@ -104,6 +108,7 @@ class Gps:
                     self.scan("E", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             # check front
             x = False
+            point = pos
             while not x:
                 front_point = (point[0], point[1] - 1)
 
@@ -116,6 +121,7 @@ class Gps:
                     self.scan("S", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             # check right
             x = False
+            point = pos
             while not x:
                 right_point = (point[0] - 1, point[1])
 
@@ -130,6 +136,7 @@ class Gps:
         elif self.location[2] == "W":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0], point[1] - 1)
 
@@ -142,6 +149,7 @@ class Gps:
                     self.scan("S", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             # check front
             x = False
+            point = pos
             while not x:
                 front_point = (point[0] - 1, point[1])
 
@@ -154,6 +162,7 @@ class Gps:
                     self.scan("W", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             # check right
             x = False
+            point = pos
             while not x:
                 right_point = (point[0], point[1] + 1)
 
@@ -219,13 +228,13 @@ class Gps:
         self.step_forward(-steps)
 
     def turn_left(self, degree):  # Encapsulation for the default turn_left function
-        if degree % 4 == 0:
+        if degree == 0 or degree == 4:
             return  # if you turn four times you should not turn at all.
-        elif degree % 4 == 1 or 2:
-            self.robot.turn_left(degree % 4)  # turn left or right depending on which turn is more efficient
-        elif degree % 4 == 3:
-            self.robot.turn_right(-degree % 4)
-
+        elif degree == 1 or degree == 2:
+            self.robot.turn_left(degree)  # turn left or right depending on which turn is more efficient
+        elif degree == 3:
+            self.robot.turn_right(4-degree)
+        degree = -degree #the code below was done wrong but its easier to
             # check orientation and update the position based on the turn.
         if self.location[2] == "N" and degree % 4 == 1 or \
                                 self.location[2] == "W" and degree % 4 == 2 or \
@@ -246,4 +255,4 @@ class Gps:
         self.check_scan()
 
     def turn_right(self, degree):  # Turning right is just turning left in the other direction!
-        self.turn_left(-degree)
+        self.turn_left(4-degree)
