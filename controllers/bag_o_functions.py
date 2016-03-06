@@ -64,7 +64,7 @@ class bag_o_functions:
                 explored[loc] = frontier.pop(loc)
 
             if target in explored:
-                return explored[target][0]
+                return explored[target][0]  # when target is reached, end DJk
             else:
                 minimum = infinity
                 for t in unvisited:
