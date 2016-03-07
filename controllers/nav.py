@@ -13,10 +13,11 @@ class Gps:
         self.robot = bot  # Extend the default robot functions into nav.
 
     def check_scan(self):
-        point = (self.location[0], self.location[1])
+        pos = (self.location[0], self.location[1])
         if self.location[2] == "N":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0] - 1, point[1])
 
@@ -28,6 +29,7 @@ class Gps:
                     x = True  # scanleft
                     self.scan("W", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             x = False
+            point = pos
             while not x:
                 front_point = (point[0], point[1] + 1)
 
@@ -39,6 +41,7 @@ class Gps:
                     x = True  # scanfront
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             x = False
+            point = pos
             while not x:
                 right_point = (point[0] + 1, point[1])
 
@@ -52,6 +55,7 @@ class Gps:
         elif self.location[2] == "E":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0], point[1] + 1)
 
@@ -64,6 +68,7 @@ class Gps:
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             # check front
             x = False
+            point = pos
             while not x:
                 front_point = (point[0] + 1, point[1])
 
@@ -76,6 +81,7 @@ class Gps:
                     self.scan("E", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             # check right
             x = False
+            point = pos
             while not x:
                 right_point = (point[0], point[1] - 1)
 
@@ -89,6 +95,7 @@ class Gps:
         elif self.location[2] == "S":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0] + 1, point[1])
 
@@ -101,6 +108,7 @@ class Gps:
                     self.scan("E", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             # check front
             x = False
+            point = pos
             while not x:
                 front_point = (point[0], point[1] - 1)
 
@@ -113,6 +121,7 @@ class Gps:
                     self.scan("S", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             # check right
             x = False
+            point = pos
             while not x:
                 right_point = (point[0] - 1, point[1])
 
@@ -127,6 +136,7 @@ class Gps:
         elif self.location[2] == "W":
             # check left
             x = False
+            point = pos
             while not x:
                 left_point = (point[0], point[1] - 1)
 
@@ -139,6 +149,7 @@ class Gps:
                     self.scan("S", self.robot.sense_steps(self.robot.SENSOR_LEFT))
             # check front
             x = False
+            point = pos
             while not x:
                 front_point = (point[0] - 1, point[1])
 
@@ -151,6 +162,7 @@ class Gps:
                     self.scan("W", self.robot.sense_steps(self.robot.SENSOR_FRONT))
             # check right
             x = False
+            point = pos
             while not x:
                 right_point = (point[0], point[1] + 1)
 
@@ -167,23 +179,31 @@ class Gps:
         if cardinal == "N":
             for x in range(steps):
                 self.map[point][0].append((point[0], point[1]+1))
-                point = (point(0), point(1)+1)
+                point = (point[0], point[1]+1)
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
             self.map[point][1].append((point[0], point[1]+1))
         if cardinal == "S":
             for x in range(steps):
                 self.map[point][0].append((point[0], point[1]-1))
-                point = (point(0), point(1)+1)
+                point = (point[0], point[1]-1)
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
             self.map[point][1].append((point[0], point[1]-1))
         if cardinal == "E":
             for x in range(steps):
-                self.map[point][0].append((point[0], point[1]-1))
-                point = (point(0), point(1)+1)
-            self.map[point][1].append((point[0], point[1]-1))
+                self.map[point][0].append((point[0]+1, point[1]))
+                point = (point[0]+1, point[1])
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
+            self.map[point][1].append((point[0]+1, point[1]))
         if cardinal == "W":
-            for x in range(steps):
-                self.map[point][0].append((point[0], point[1]-1))
-                point = (point(0), point(1)+1)
-            self.map[point][1].append((point[0], point[1]-1))
+            for x in range(int(steps)):
+                self.map[point][0].append((point[0]-1, point[1]))
+                point = (point[0]-1, point[1])
+                newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
+                self.map.update(newentry)
+            self.map[point][1].append((point[0]-1, point[1]))
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
         if steps == 0:
@@ -201,19 +221,20 @@ class Gps:
             self.location[0] += steps
         elif self.location[2] == "W":  # if facing west, subtract from X-coord
             self.location[0] -= steps
+        self.check_scan()
         return
 
     def step_backward(self, steps):
         self.step_forward(-steps)
 
     def turn_left(self, degree):  # Encapsulation for the default turn_left function
-        if degree % 4 == 0:
+        if degree == 0 or degree == 4:
             return  # if you turn four times you should not turn at all.
-        elif degree % 4 == 1 or 2:
-            self.robot.turn_left(degree % 4)  # turn left or right depending on which turn is more efficient
-        elif degree % 4 == 3:
-            self.robot.turn_right(-degree % 4)
-
+        elif degree == 1 or degree == 2:
+            self.robot.turn_left(degree)  # turn left or right depending on which turn is more efficient
+        elif degree == 3:
+            self.robot.turn_right(4-degree)
+        degree = -degree #the code below was done wrong but its easier to
             # check orientation and update the position based on the turn.
         if self.location[2] == "N" and degree % 4 == 1 or \
                                 self.location[2] == "W" and degree % 4 == 2 or \
@@ -231,6 +252,7 @@ class Gps:
                                 self.location[2] == "S" and degree % 4 == 2 or \
                                 self.location[2] == "E" and degree % 4 == 3:
             self.location[2] = "N"
+        self.check_scan()
 
     def turn_right(self, degree):  # Turning right is just turning left in the other direction!
-        self.turn_left(-degree)
+        self.turn_left(4-degree)
