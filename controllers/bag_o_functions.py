@@ -1,29 +1,4 @@
 class bag_o_functions:
-    #this is a test map for display purposes only
-    map =  \
-        {
-            (0, 0): [
-                [(0, 1), (1, 0)],
-                [(-1, 0), (0, -1)],
-                []
-            ],
-            (0, 1): [
-                [(0, 0), (0, 2)],
-                [(-1, 1), (1, 1)],
-                []
-            ],
-            (0, 2): [
-                [(0, 1),(0, 3)],
-                [],
-                [(1, 2), (-1, 2)]
-            ],
-            (0, 3): [
-                [(0, 2)],[],[]
-            ],
-            (1, 0):[
-                [(0,0)],[],[]
-            ]
-        }
     """
     Dijkstra's algorithm acts over a connected graph: assume a path between location node and target node exists
     path will be represented as a series of nodes in an ordered list: each node is connected to the next in the list
@@ -40,25 +15,61 @@ class bag_o_functions:
         # TODO for each explored node, a path list that is how it got there
         # TODO allow unvisited node distances to start at infinity
         # TODO make a frontier list which contains all partially explored nodes
-        infinity = 10  # this is a cheat number > all others in comparisons
+        # TODO make this code more readable, maybe change some names, add more comments
+        # TODO eventually make DJK work if graph is not connected
+          #this is a test map for display purposes only
+        map =  \
+            {
+                (0, 0): [
+                    [(0, 1), (1, 0)],
+                    [(-1, 0), (0, -1)],
+                    []
+                ],
+                (0, 1): [
+                    [(0, 0), (0, 2)],
+                    [(-1, 1), (1, 1)],
+                    []
+                ],
+                (0, 2): [
+                    [(0, 1),(0, 3)],
+                    [],
+                    [(1, 2), (-1, 2)]
+                ],
+                (0, 3): [
+                    [(0, 2)],[(0,4)],[]
+                ],
+                (1, 0):[
+                    [(0,0)],[],[]
+                ],
+                (0, 4):[
+                    [[],[(0, 3)],[]]
+                ]
+            }
+        infinity = 10e3000000   # this is a number which is too big for python to handle: becomes 1.#INF
+                                #and is therefore considered > all other comparable numbers and basically infinity
+        # nodes will be added to explored when the shortest path from location to node is found. It's a list of solved nodes
+        # and DJK will stop when the target node is in explored
         explored = {}
-        # distance from start to start is obv. 0
+        #frontier will contain a node in which connections are followed through: all nodes in explored go through
+        #frontier, one at a time.
         frontier = {}
-        # nodes will be added to explored when the minimum distance from loc to node is found
+        #All nodes but the source 'location' node start in unvisited: these are nodes we don't yet have an optimal path
+        #for yet. But we will. I promise
         unvisited = {}
         for t in map:
             unvisited[t] = [[], infinity]  # in the beginning, all found connections regardless of distance are better
-            # than nothing, so distance of connection is initially set to 'infinity' to fail
+            # than nothing, so distance of connection is initially set to 'infinity' to be overriden by any possible
+            # path regardless of length
         frontier[location] = unvisited.pop(location)
+        # distance from start to start is obv. 0, and we know the path from location to location (location)
         frontier[location] = [[location], 0]
-        print(unvisited)
         # basic comparison with an actual connection regardless of size of found connection
         # setup complete
         # now use all connections from location node to others to start exploring the unvisited
 
-        loc = location
-        print(frontier)
-        while True:
+        loc = location #this looks confusing, but it isn't. loc is the node of interest (always in frontier), location
+                        #is the source node.
+        while True: #This means we will visit all unvisitables or loop forever
             if len(map[loc][0]) > 0:  # there are nodes adjacent and connected to location
                 for n in map[loc][0]:  # iterate through these nodes
                     if n in unvisited:  # select the node if it is unvisited
@@ -82,7 +93,18 @@ class bag_o_functions:
                      if unvisited[m][1] < minimum:
                          loc = m
                          minimum = unvisited[m][1]
+                if minimum == infinity and len(unvisited)>0: #if its still infinity after finding true minimum value in unvisited
+                    print("Ben is an unfun dog") #woof #thisIsForYouBen #noFilter #camelCase
+                    return []   #this will occur if all of unvisited is unfindable
+                                #hopefully this means that we have explored everything we can,
+                                # and we can return no path for target because if there was one,
+                                # we'd have found it
                 frontier[loc] = unvisited.pop(loc)
-        return "fuck"  # return something likely to cause an error if for some reason we escape "while true:"
-    print(DJK((0, 0), map, (1, 0))) #use the test map and path to a target (this test works)
+    print(DJK((0, 0),map,(0, 4))) #holy moly it worked first* try
 
+
+
+
+
+
+    #*was at least second
