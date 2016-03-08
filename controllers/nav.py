@@ -256,3 +256,21 @@ class Gps:
 
     def turn_right(self, degree):  # Turning right is just turning left in the other direction!
         self.turn_left(4-degree)
+
+    def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
+        for x in path[0]:
+            print x
+            if x[0] == self.location[0] and x[1] == self.location[1]:
+                print "I did not move"
+            elif x[0] == self.location[0] + 1:
+                print "I moved East"
+            elif x[0] == self.location[0] - 1:
+                print "I moved West"
+            elif x[1] == self.location[1] + 1:
+                print "I moved North"
+            elif x[1] == self.location[1] - 1:
+                print "I moved South"
+
+naver = Gps(123)
+path = [[(0, 0), (-1, 0), (-1, 1), (-2, 1)], 3]
+print naver.follow_path(path)
