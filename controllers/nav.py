@@ -1,3 +1,6 @@
+#TODO: store locations of packets and viruses and such
+#TODO: make sure importing this module works in practice
+
 class Gps:
     def __init__(self, bot):  # bot is the default robot object provided by MESA
         self.location = [0, 0, "N"]  # The robot starts at the origin, facing north
@@ -11,6 +14,20 @@ class Gps:
             }
 
         self.robot = bot  # Extend the default robot functions into nav.
+# cleanup will never have to deal with non-walls(map[0]) because of the way they are sensed.
+    def cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
+        for key in self.map:  # iterate through keys(places we know we can travel to)
+            walls = self.map[key][1]  # List of known walls surrounding the given key
+            for wall in walls:  # iterate through these walls
+                if wall in self.map.keys():  # if the space on the other side of the wall is a key
+                    self.map[wall][1].append(key)  # add the original key to the current wall, as a wall
+            # step 2: remove unknowns from map[2] if they exist in map[0] or map[1]
+            for entry in map[0]:
+                if entry in map[2]:
+                    map[2].remove(entry)
+            for entry in map[1]:
+                if entry in map[2]:
+                    map[2].remove(entry)
 
     def check_scan(self):
         pos = (self.location[0], self.location[1])
@@ -204,6 +221,7 @@ class Gps:
                 newentry = {point:[[], [], [(point[0], point[1]+1), (point[0], point[1]-1), (point[0]+1, point[1]), (point[0]-1, point[1])]]}
                 self.map.update(newentry)
             self.map[point][1].append((point[0]-1, point[1]))
+        self.cleanup()
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
         if steps == 0:
@@ -328,5 +346,4 @@ class Gps:
                 self.go_south()
 
 naver = Gps(123)
-path = [[(0, 0), (-1, 0), (-1, 1), (-2, 1)], 3]
-print naver.follow_path(path)
+naver.cleanup()
