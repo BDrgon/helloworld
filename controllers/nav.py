@@ -257,19 +257,75 @@ class Gps:
     def turn_right(self, degree):  # Turning right is just turning left in the other direction!
         self.turn_left(4-degree)
 
+    def go_north(self):
+        if self.location[2] == "N":
+            self.step_forward(1)
+        elif self.location[2] == "E":
+            self.turn_left(1)
+            self.step_forward(1)
+        elif self.location[2] == "S":
+            self.turn_left(2)
+            self.step_forward(1)
+        elif self.location[2] == "W":
+            self.turn_right(1)
+            self.step_forward(1)
+        print "I went North"
+
+    def go_east(self):
+        if self.location[2] == "N":
+            self.turn_left(3)
+            self.step_forward(1)
+        elif self.location[2] == "E":
+            self.step_forward(1)
+        elif self.location[2] == "S":
+            self.turn_left(1)
+            self.step_forward(1)
+        elif self.location[2] == "W":
+            self.turn_left(2)
+            self.step_forward(1)
+        print "I went East"
+
+    def go_south(self):
+        if self.location[2] == "N":
+            self.turn_left(2)
+            self.step_forward(1)
+        elif self.location[2] == "E":
+            self.turn_left(3)
+            self.step_forward(1)
+        elif self.location[2] == "S":
+            self.step_forward(1)
+        elif self.location[2] == "W":
+            self.turn_left(1)
+            self.step_forward(1)
+        print "I went South"
+
+    def go_west(self):
+        if self.location[2] == "N":
+            self.turn_left(1)
+            self.step_forward(1)
+        elif self.location[2] == "E":
+            self.turn_left(2)
+            self.step_forward(1)
+        elif self.location[2] == "S":
+            self.turn_left(3)
+            self.step_forward(1)
+        elif self.location[2] == "W":
+            self.step_forward(1)
+        print "I went West"
+
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
         for x in path[0]:
             print x
             if x[0] == self.location[0] and x[1] == self.location[1]:
                 print "I did not move"
             elif x[0] == self.location[0] + 1:
-                print "I moved East"
+                self.go_east()
             elif x[0] == self.location[0] - 1:
-                print "I moved West"
+                self.go_west()
             elif x[1] == self.location[1] + 1:
-                print "I moved North"
+                self.go_north()
             elif x[1] == self.location[1] - 1:
-                print "I moved South"
+                self.go_south()
 
 naver = Gps(123)
 path = [[(0, 0), (-1, 0), (-1, 1), (-2, 1)], 3]
