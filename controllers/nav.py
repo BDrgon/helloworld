@@ -327,6 +327,6 @@ class Gps:
             elif x[1] == self.location[1] - 1:
                 self.go_south()
 
-naver = Gps(123)
+naver = Gps(13)
 path = [[(0, 0), (-1, 0), (-1, 1), (-2, 1)], 3]
 print naver.follow_path(path)
