@@ -1,24 +1,5 @@
 class bag_o_functions:
-    """
-    Dijkstra's algorithm acts over a connected graph: assume a path between location node and target node exists
-    path will be represented as a series of nodes in an ordered list: each node is connected to the next in the list
-    via an edge. The algorithm finds the shortest list of said nodes that accurately lead to the target node.
-    """
-    def DJK(location, map, target):  # full implementation of Dijkstra's algorithm over a dictionary object map
-                        # The keys of the dictionary are nodes, and the entries nodes connected to key by an edge
-                        # output is a list of instructions that define the shortest path from location to target
-        # let's implement Dijkstra's algo:
-        # TODO object that represents each node, number of edges, and a shortest path
-        # TODO list of nodes to explore
-        # TODO list of nodes explored
-        # TODO end when target is explored
-        # TODO for each explored node, a path list that is how it got there
-        # TODO allow unvisited node distances to start at infinity
-        # TODO make a frontier list which contains all partially explored nodes
-        # TODO make this code more readable, maybe change some names, add more comments
-        # TODO eventually make DJK work if graph is not connected
-          #this is a test map for display purposes only
-        map =  \
+    map =  \
             {
                 (0, 0): [
                     [(0, 1), (1, 0)],
@@ -45,10 +26,30 @@ class bag_o_functions:
                     [[],[(0, 3)],[]]
                 ]
             }
+    """
+    Dijkstra's algorithm acts over a connected graph: assume a path between location node and target node exists
+    path will be represented as a series of nodes in an ordered list: each node is connected to the next in the list
+    via an edge. The algorithm finds the shortest list of said nodes that accurately lead to the target node.
+    """
+    def djk(location, map, target):  # full implementation of Dijkstra's algorithm over a dictionary object map
+                        # The keys of the dictionary are nodes, and the entries nodes connected to key by an edge
+                        # output is a list of instructions that define the shortest path from location to target
+        # let's implement Dijkstra's algo:
+        # TODO object that represents each node, number of edges, and a shortest path
+        # TODO list of nodes to explore
+        # TODO list of nodes explored
+        # TODO end when target is explored
+        # TODO for each explored node, a path list that is how it got there
+        # TODO allow unvisited node distances to start at infinity
+        # TODO make a frontier list which contains all partially explored nodes
+        # TODO make this code more readable, maybe change some names, add more comments
+        # TODO eventually make djk work if graph is not connected
+          #this is a test map for display purposes only
+
         infinity = 10e3000000   # this is a number which is too big for python to handle: becomes 1.#INF
                                 #and is therefore considered > all other comparable numbers and basically infinity
         # nodes will be added to explored when the shortest path from location to node is found. It's a list of solved nodes
-        # and DJK will stop when the target node is in explored
+        # and djk will stop when the target node is in explored
         explored = {}
         #frontier will contain a node in which connections are followed through: all nodes in explored go through
         #frontier, one at a time.
@@ -100,7 +101,7 @@ class bag_o_functions:
                                 # and we can return no path for target because if there was one,
                                 # we'd have found it
                 frontier[loc] = unvisited.pop(loc)
-    print(DJK((0, 0),map,(0, 4))) #holy moly it worked first* try
+    print(djk((0, 0), map, (0, 4))) #holy moly it worked first* try
 
 
 
