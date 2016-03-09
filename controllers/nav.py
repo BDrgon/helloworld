@@ -1,6 +1,5 @@
 #TODO: store locations of packets and viruses and such
 #TODO: make sure importing this module works in practice
-
 class Gps:
     def __init__(self, bot):  # bot is the default robot object provided by MESA
         self.location = [0, 0, "N"]  # The robot starts at the origin, facing north
@@ -12,9 +11,8 @@ class Gps:
                     , [(0, 1), (0, -1), (1, 0), (-1, 0)]  # The spaces whose relation to the key is unknown
                 ]
             }
-
         self.robot = bot  # Extend the default robot functions into nav.
-# cleanup will never have to deal with non-walls(map[0]) because of the way they are sensed.
+
     def cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
         for key in self.map:  # iterate through keys(places we know we can travel to)
             walls = self.map[key][1]  # List of known walls surrounding the given key
@@ -27,7 +25,8 @@ class Gps:
             for entry in knowns:
                 if entry in unknowns:
                     self.map[key][2].remove(entry)
-    def check_scan(self):
+
+    def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])
         if self.location[2] == "N":
             # check left
@@ -220,121 +219,29 @@ class Gps:
                 self.map.update(newentry)
             self.map[point][1].append((point[0]-1, point[1]))
         self.cleanup()
+        print("map: " + repr(self.map) + " location: " + repr(self.location))
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
-        if steps == 0:
-            return
-        elif steps > 0:
-            self.robot.step_forward(steps)  # Step step forward like the default function would
-        elif steps < 0:
-            self.robot.step_backward(abs(steps))
-
-        if self.location[2] == "N":  # if facing north, add steps to Y-coord
-            self.location[1] += steps
-        elif self.location[2] == "S":  # if facing south, subtract from Y-coord
-            self.location[1] -= steps
-        elif self.location[2] == "E":  # if facing east, add to X-coord
-            self.location[0] += steps
-        elif self.location[2] == "W":  # if facing west, subtract from X-coord
-            self.location[0] -= steps
+        print("step_forward(" + steps + ")")
+        self.robot.step_forward(steps)
         self.check_scan()
         return
 
     def step_backward(self, steps):
         self.step_forward(-steps)
 
-    def turn_left(self, degree):  # Encapsulation for the default turn_left function
-        if degree == 0 or degree == 4:
-            return  # if you turn four times you should not turn at all.
-        elif degree == 1 or degree == 2:
-            self.robot.turn_left(degree)  # turn left or right depending on which turn is more efficient
-        elif degree == 3:
-            self.robot.turn_right(4-degree)
-        degree = -degree #the code below was done wrong but its easier to
-            # check orientation and update the position based on the turn.
-        if self.location[2] == "N" and degree % 4 == 1 or \
-                                self.location[2] == "W" and degree % 4 == 2 or \
-                                self.location[2] == "S" and degree % 4 == 3:
-            self.location[2] = "E"
-        elif self.location[2] == "E" and degree % 4 == 1 or \
-                                self.location[2] == "N" and degree % 4 == 2 or \
-                                self.location[2] == "W" and degree % 4 == 3:
-            self.location[2] = "S"
-        elif self.location[2] == "S" and degree % 4 == 1 or \
-                                self.location[2] == "E" and degree % 4 == 2 or \
-                                self.location[2] == "N" and degree % 4 == 3:
-            self.location[2] = "W"
-        elif self.location[2] == "W" and degree % 4 == 1 or \
-                                self.location[2] == "S" and degree % 4 == 2 or \
-                                self.location[2] == "E" and degree % 4 == 3:
-            self.location[2] = "N"
-        self.check_scan()
+    def turn_left(self, degree):
+        self.robot.turn_left(degree)
 
     def turn_right(self, degree):  # Turning right is just turning left in the other direction!
-        self.turn_left(4-degree)
-
-    def go_north(self):
-        if self.location[2] == "N":
-            self.step_forward(1)
-        elif self.location[2] == "E":
-            self.turn_left(1)
-            self.step_forward(1)
-        elif self.location[2] == "S":
-            self.turn_left(2)
-            self.step_forward(1)
-        elif self.location[2] == "W":
-            self.turn_right(1)
-            self.step_forward(1)
-        print "I went North"
-
-    def go_east(self):
-        if self.location[2] == "N":
-            self.turn_left(3)
-            self.step_forward(1)
-        elif self.location[2] == "E":
-            self.step_forward(1)
-        elif self.location[2] == "S":
-            self.turn_left(1)
-            self.step_forward(1)
-        elif self.location[2] == "W":
-            self.turn_left(2)
-            self.step_forward(1)
-        print "I went East"
-
-    def go_south(self):
-        if self.location[2] == "N":
-            self.turn_left(2)
-            self.step_forward(1)
-        elif self.location[2] == "E":
-            self.turn_left(3)
-            self.step_forward(1)
-        elif self.location[2] == "S":
-            self.step_forward(1)
-        elif self.location[2] == "W":
-            self.turn_left(1)
-            self.step_forward(1)
-        print "I went South"
-
-    def go_west(self):
-        if self.location[2] == "N":
-            self.turn_left(1)
-            self.step_forward(1)
-        elif self.location[2] == "E":
-            self.turn_left(2)
-            self.step_forward(1)
-        elif self.location[2] == "S":
-            self.turn_left(3)
-            self.step_forward(1)
-        elif self.location[2] == "W":
-            self.step_forward(1)
-        print "I went West"
+        self.robot.turn_right(degree)
 
     def turn_to(self, bearing):
         current = self.location[2]
         if bearing == current:
             return # do nothing
         # conditions that result in turning left
-        if current == "N" and bearing == "W" or current == "W" and bearing == "S" or current == "S" and bearing == "E" or current == "E" and bearing == "N":
+        if (current == "N" and bearing == "W") or (current == "W" and bearing == "S") or current == "S" and bearing == "E" or current == "E" and bearing == "N":
             self.turn_left(1)
         #conditions that result in turning right
         if current == "N" and bearing == "E" or current == "W" and bearing == "N" or current == "S" and bearing == "W" or current == "E" and bearing == "S":
@@ -342,8 +249,46 @@ class Gps:
         #conditions that result in a U-turn
         if current == "N" and bearing == "S" or current == "W" and bearing == "E" or current == "S" and bearing == "N" or current == "E" and bearing == "W":
             self.turn_left(2)
+        self.location[2] = bearing
 
+    def go_north(self):
+        print("go_north()")
+        self.turn_to("N")
+        self.step_forward(1)
+        self.location[1] += 1
 
+    def go_east(self):
+        print("go_east()")
+        self.turn_to("E")
+        self.step_forward(1)
+        self.location[0] += 1
+
+    def go_south(self):
+        print("go_south()")
+        self.turn_to("S")
+        self.step_forward(1)
+        self.location[1] -= 1
+
+    def go_west(self):
+        print("go_west")
+        self.turn_to("W")
+        self.step_forward(1)
+        self.location[0] -= 1
+
+    def turn_to(self, bearing):
+        current = self.location[2]
+        if bearing == current:
+            return # do nothing
+        # conditions that result in turning left
+        if (current == "N" and bearing == "W") or (current == "W" and bearing == "S") or current == "S" and bearing == "E" or current == "E" and bearing == "N":
+            self.turn_left(1)
+        #conditions that result in turning right
+        if current == "N" and bearing == "E" or current == "W" and bearing == "N" or current == "S" and bearing == "W" or current == "E" and bearing == "S":
+            self.turn_right(1)
+        #conditions that result in a U-turn
+        if current == "N" and bearing == "S" or current == "W" and bearing == "E" or current == "S" and bearing == "N" or current == "E" and bearing == "W":
+            self.turn_left(2)
+        self.location[2] = bearing
 
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
         for x in path[0]:
