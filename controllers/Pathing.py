@@ -1,12 +1,12 @@
 # Dijkstra's algorithm acts over a connected graph: assume a path between location node and target node exists
 # path will be represented as a series of nodes in an ordered list: each node is connected to the next in the list
 # via an edge. The algorithm finds the shortest list of said nodes that accurately lead to the target node.
-
+from nav import Gps
 
 def DJK(robot, target):  # pass the robot class and the target location
     map = robot.map  # easier access to the current map of the level
     location = robot.location  # this is the starting location
-    infinity = float('infinity')  # this is how you make inifinity in python
+    infinity = 10e300000  # this is how you make inifinity in python
     unvisited = {}  # all points start in unvisited. as DJK works over to them they are moved out of unvisited
     frontier = {}  # into frontier. Frontier contains the points that DJK has navigated to.
     explored = {}  # Points from frontier are compared against the target point nad moved to explored if !=
@@ -26,7 +26,9 @@ def DJK(robot, target):  # pass the robot class and the target location
                         unvisited[n][0].append(n)  # add the final step of travel
             explored[loc] = frontier.pop(loc)  # move the finalized path to the explored dictionary
         if target in explored:  # if the target location has has a path found to it
-            return explored[target]  # return the path to target, end DJK
+            path = explored[target]  # create the path in a variable
+            Gps.follow_path(path)  # run the follow path function with the djk
+            # return explored[target]  # return the path to target, end DJK
         else:
             minimum = infinity
             for m in unvisited:
