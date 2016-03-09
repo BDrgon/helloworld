@@ -1,5 +1,6 @@
 #TODO: store locations of packets and viruses and such
 #TODO: make sure importing this module works in practice
+import sys
 class Gps:
     def __init__(self, bot):  # bot is the default robot object provided by MESA
         self.location = [0, 0, "N"]  # The robot starts at the origin, facing north
@@ -53,7 +54,7 @@ class Gps:
                     x = True
                 elif front_point in self.map[point][2]:
                     x = True  # scanfront
-                    self.scan("N", self.robot.sense_steps(self.robot.SENSOR_FRONT))
+                    self.scan("N", self.robot.sense_steps(self.robot.SENSOR_FORWARD))
             x = False
             point = pos
             while not x:
@@ -92,7 +93,7 @@ class Gps:
                     x = True
                 elif front_point in self.map[point][2]:
                     x = True  # scanfront
-                    self.scan("E", self.robot.sense_steps(self.robot.SENSOR_FRONT))
+                    self.scan("E", self.robot.sense_steps(self.robot.SENSOR_FORWARD))
             # check right
             x = False
             point = pos
@@ -132,7 +133,7 @@ class Gps:
                     x = True
                 elif front_point in self.map[point][2]:
                     x = True  # scanfront
-                    self.scan("S", self.robot.sense_steps(self.robot.SENSOR_FRONT))
+                    self.scan("S", self.robot.sense_steps(self.robot.SENSOR_FORWARD))
             # check right
             x = False
             point = pos
@@ -173,7 +174,7 @@ class Gps:
                     x = True
                 elif front_point in self.map[point][2]:
                     x = True  # scanfront
-                    self.scan("W", self.robot.sense_steps(self.robot.SENSOR_FRONT))
+                    self.scan("W", self.robot.sense_steps(self.robot.SENSOR_FORWARD))
             # check right
             x = False
             point = pos
@@ -190,6 +191,7 @@ class Gps:
 
     def scan(self, cardinal, steps):
         point = (self.location[0], self.location[1])
+        steps = int(steps)
         if cardinal == "N":
             for x in range(steps):
                 self.map[point][0].append((point[0], point[1]+1))
@@ -222,13 +224,15 @@ class Gps:
         print("map: " + repr(self.map) + " location: " + repr(self.location))
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
-        print("step_forward(" + steps + ")")
+        print("step_forward(" + str(steps) + ")")
         self.robot.step_forward(steps)
         self.check_scan()
         return
 
     def step_backward(self, steps):
-        self.step_forward(-steps)
+        print("step_backward(" + str(steps) + ")")
+        self.robot.step_backward(steps)
+        self.check_scan
 
     def turn_left(self, degree):
         self.robot.turn_left(degree)
@@ -237,6 +241,7 @@ class Gps:
         self.robot.turn_right(degree)
 
     def turn_to(self, bearing):
+        sys.stdout("turn_to(" + bearing + ")\n" )
         current = self.location[2]
         if bearing == current:
             return # do nothing
