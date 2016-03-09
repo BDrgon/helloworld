@@ -74,7 +74,7 @@ class bag_o_functions:
         loc = location  # this looks confusing, but it isn't. loc is the node of interest (always in frontier), location
         # is the source node.
         while True:  # This means we will visit all unvisitables or loop forever
-            if len(map[loc][0]) > 0:  # there are nodes adjacent and connected to location
+            if len(map[loc][0]) > 0:  # if there are nodes adjacent and connected to location
                 for n in map[loc][0]:  # iterate through these nodes
                     if n in unvisited:  # select the node if it is unvisited
                         if unvisited[n][1] > frontier[loc][1] + 1:

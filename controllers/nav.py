@@ -308,6 +308,3 @@ class Gps:
                 self.go_north()
             elif x[1] == self.location[1] - 1:
                 self.go_south()
-
-naver = Gps(123)
-naver.cleanup()

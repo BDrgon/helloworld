@@ -3,4 +3,5 @@
 import random
 def random_motion(robot):
     choices = robot.map.keys()
+    print "Choices are " + repr(choices)
     return random.choice(choices) #Return a random key from the map
