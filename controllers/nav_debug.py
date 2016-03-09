@@ -36,3 +36,12 @@ class FakeRobot:
 
 robot = FakeRobot()
 navigator = nav.Gps(robot)
+print navigator.location
+navigator.go_east()
+print navigator.location
+navigator.go_north()
+print navigator.location
+navigator.go_south()
+print navigator.location
+navigator.go_west()
+print navigator.location

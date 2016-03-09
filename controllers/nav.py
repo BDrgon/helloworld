@@ -22,13 +22,11 @@ class Gps:
                 if wall in self.map.keys():  # if the space on the other side of the wall is a key
                     self.map[wall][1].append(key)  # add the original key to the current wall, as a wall
             # step 2: remove unknowns from map[2] if they exist in map[0] or map[1]
-            for entry in map[0]:
-                if entry in map[2]:
-                    map[2].remove(entry)
-            for entry in map[1]:
-                if entry in map[2]:
-                    map[2].remove(entry)
-
+            unknowns = self.map[key][2]
+            knowns = self.map[key][0] + self.map[key][1]
+            for entry in knowns:
+                if entry in unknowns:
+                    self.map[key][2].remove(entry)
     def check_scan(self):
         pos = (self.location[0], self.location[1])
         if self.location[2] == "N":
@@ -330,6 +328,22 @@ class Gps:
         elif self.location[2] == "W":
             self.step_forward(1)
         print "I went West"
+
+    def turn_to(self, bearing):
+        current = self.location[2]
+        if bearing == current:
+            return # do nothing
+        # conditions that result in turning left
+        if current == "N" and bearing == "W" or current == "W" and bearing == "S" or current == "S" and bearing == "E" or current == "E" and bearing == "N":
+            self.turn_left(1)
+        #conditions that result in turning right
+        if current == "N" and bearing == "E" or current == "W" and bearing == "N" or current == "S" and bearing == "W" or current == "E" and bearing == "S":
+            self.turn_right(1)
+        #conditions that result in a U-turn
+        if current == "N" and bearing == "S" or current == "W" and bearing == "E" or current == "S" and bearing == "N" or current == "E" and bearing == "W":
+            self.turn_left(2)
+
+
 
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
         for x in path[0]:
