@@ -1,3 +1,5 @@
+#TODO every function has a place - nav.py, paradigms, or a controller. Rename this to something that fits the fact that
+#literally the only thing in here is DJK, maybe "pathfinders" for when we never make a differeny pathfinder from DJK
 class bag_o_functions:
     map =  \
             {
