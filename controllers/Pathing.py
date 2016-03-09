@@ -7,9 +7,9 @@ def DJK(robot, target):  # pass the robot class and the target location
     map = robot.map  # easier access to the current map of the level
     location = robot.location  # this is the starting location
     infinity = 10e300000  # this is how you make inifinity in python
-    unvisited = {}  # all points start in unvisited. as DJK works over to them they are moved out of unvisited
-    frontier = {}  # into frontier. Frontier contains the points that DJK has navigated to.
-    explored = {}  # Points from frontier are compared against the target point nad moved to explored if !=
+    unvisited = {}  # all points start in unvisited. as DJK works over to them they are moved out of unvisited and into frontier
+    frontier = {}  # Frontier grabs the closest (shortest path length) point from unvisited and explores its options
+    explored = {}  # Points guaranteed to have an optimal path after they have been through frontier
     for point in map:  # add all the key in the map to the unvisited list
         unvisited[point] = [[], infinity]
     unvisited.pop(location)  # remove the starting location from list of unvisited points
@@ -28,7 +28,7 @@ def DJK(robot, target):  # pass the robot class and the target location
         if target in explored:  # if the target location has has a path found to it
             path = explored[target]  # create the path in a variable
             Gps.follow_path(path)  # run the follow path function with the djk
-            # return explored[target]  # return the path to target, end DJK
+             return explored[target]  # return the path to target, end DJK
         else:
             minimum = infinity
             for m in unvisited:
@@ -37,4 +37,5 @@ def DJK(robot, target):  # pass the robot class and the target location
                     minimum = unvisited[m][1]
             if minimum == infinity and len(unvisited) > 0:
                 return []  # if no path is found return an empty string. This should never happen in practice
-            frontier[loc] = unvisited.pop[loc]  # Not sure what this actually does, but code shouldn't reach here
+            frontier[loc] = unvisited.pop[loc]  # This is a vital line of code: it pulls a location
+                                                # from unvisited with an optimal path length and begins to explore from it
