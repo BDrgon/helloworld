@@ -25,12 +25,14 @@ def DJK(robot, target):  # pass the robot class and the target location
                 if n in unvisited:  # filter for unvisited nodes only
                     if unvisited[n][1] > frontier[loc][1] + 1:  # If the tenative distance is smaller that the current
                         unvisited[n][1] = frontier[loc][1] + 1  # replace current with tentative
-                        unvisited[n][0] = frontier[loc][0]  # take the path to loc
+                        unvisited[n][0] = []
+                        for x in frontier[loc][0]:
+                            unvisited[n][0].append(x)
                         unvisited[n][0].append(n)  # add the final step of travel
             explored[loc] = frontier.pop(loc)  # move the finalized path to the explored dictionary
         if target in explored:  # if the target location has has a path found to it
             path = explored[target]  # create the path in a variable
-            Gps.follow_path(path)  # run the follow path function with the djk
+            Gps.follow_path(path[0])  # run the follow path function with the djk
             return explored[target]  # return the path to target, end DJK
         else:
             minimum = infinity
@@ -41,4 +43,4 @@ def DJK(robot, target):  # pass the robot class and the target location
             if minimum == infinity and len(unvisited) > 0:
                 return []  # if no path is found return an empty string. This should never happen in practice
             frontier[loc] = unvisited.pop[loc]  # This is a vital line of code: it pulls a location
-                                                # from unvisited with an optimal path length and begins to explore from it
+        # from unvisited with an optimal path length and begins to explore from it
