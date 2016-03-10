@@ -1,3 +1,6 @@
+#TODO: store locations of packets and viruses and such
+#TODO: make sure importing this module works in practice
+#TODO: cut size of nav down by using functions.py and reusing code
 # TODO: store locations of packets and viruses and such
 # TODO: make sure importing this module works in practice
 import sys
@@ -45,9 +48,9 @@ class Gps:
                     if key in self.map[walled_off][2] #if key is 'unknown' from walled_off's perspective
                         self.map[walled_off][1].append(self.map[walled_off][2].pop(key)) #shift key to unmovable
 
-                
-                    
-            
+
+
+
     def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])
         if self.location[2] == "N":
@@ -253,7 +256,7 @@ class Gps:
     def step_backward(self, steps):
         print("step_backward(" + str(steps) + ")")
         self.robot.step_backward(steps)
-        self.check_scan
+        self.check_scan()
 
     def turn_left(self, degree):
         self.robot.turn_left(degree)

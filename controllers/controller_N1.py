@@ -3,8 +3,11 @@ def control_robot(robot):
     from nav import Gps
     from Pathing import djk
     import random
+    from functions import djk
+    from paradigms import random_motion
     driver = Gps(robot)
-    driver.turn_to("S")
+    driver.check_scan()
+    driver.turn_to("S") #why?
     driver.turn_to("N")
 
     while True:

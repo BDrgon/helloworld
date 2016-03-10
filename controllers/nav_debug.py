@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 from controllers import nav
-# fake robot class for debugging literally everything
+#fake robot class for debugging literally everything
+#If this is for debugging everything, it needs a stronger implementation and a class that isn't tied to nav
 
 
 class FakeRobot:
@@ -31,7 +32,7 @@ class FakeRobot:
 
     @staticmethod
     def sense_steps(sensor):
-        steps = raw_input("enter distance to closest wall seens by " + sensor)
+        steps = raw_input("enter distance to closest wall seen by " + sensor)
         return int(steps)
 
 robot = FakeRobot()
