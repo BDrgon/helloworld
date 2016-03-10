@@ -32,8 +32,6 @@ def djk(gps, target):  # pass the robot class and the target location
                         unvisited[n][0].append(n)  # add the final step of travel
             explored[loc] = frontier.pop(loc)  # move the finalized path to the explored dictionary
         if target in explored:  # if the target location has has a path found to it
-            path = explored[target]  # create the path in a variable
-            Gps.follow_path(path[0])  # run the follow path function with the djk
             return explored[target]  # return the path to target, end djk
         else:
             minimum = infinity
