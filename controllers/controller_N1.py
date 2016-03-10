@@ -1,10 +1,8 @@
-#from __future__ import absolute_import
+# from __future__ import absolute_import
 def control_robot(robot):
     from nav import Gps
-    from Pathing import DJK
+    from Pathing import djk
     import random
-
-
     driver = Gps(robot)
     driver.turn_to("S")
     driver.turn_to("N")
@@ -15,7 +13,7 @@ def control_robot(robot):
         target = random.choice(choices)
         switcher = True
         while switcher:
-            path = DJK(driver, target)
+            path = djk(driver, target)
             if len(path) != 0:
                 switcher = False
         print "path is " + repr(path)

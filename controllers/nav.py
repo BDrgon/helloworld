@@ -1,15 +1,17 @@
-#TODO: store locations of packets and viruses and such
-#TODO: make sure importing this module works in practice
+# TODO: store locations of packets and viruses and such
+# TODO: make sure importing this module works in practice
 import sys
+
+
 class Gps:
     def __init__(self, bot):  # bot is the default robot object provided by MESA
         self.location = [0, 0, "N"]  # The robot starts at the origin, facing north
         self.map = \
             {
                 (0, 0): [  # The key is a tuple of the coordinates of a square
-                    []  # The first list is the spaces that can be moved to from the key
-                    , []  # The spaces that cannot be moved to from the key
-                    , [(0, 1), (0, -1), (1, 0), (-1, 0)]  # The spaces whose relation to the key is unknown
+                    [],  # The first list is the spaces that can be moved to from the key
+                    [],  # The spaces that cannot be moved to from the key
+                    [(0, 1), (0, -1), (1, 0), (-1, 0)]  # The spaces whose relation to the key is unknown
                 ]
             }
         self.robot = bot  # Extend the default robot functions into nav.
