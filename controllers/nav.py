@@ -294,6 +294,7 @@ class Gps:
         if current == "N" and bearing == "S" or current == "W" and bearing == "E" or current == "S" and bearing == "N" or current == "E" and bearing == "W":
             self.turn_left(2)
         self.location[2] = bearing
+        self.check_scan()
 
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
         for x in path[0]:

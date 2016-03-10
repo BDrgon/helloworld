@@ -1,8 +1,8 @@
 #from __future__ import absolute_import
 def control_robot(robot):
     from nav import Gps
-    from Pathing import  DJK
-    from paradigms import random_motion
+    from Pathing import DJK
+    import random
 
 
     driver = Gps(robot)
@@ -10,8 +10,9 @@ def control_robot(robot):
     driver.turn_to("N")
 
     while True:
-        print("entered inifinite loop")
-        target = random_motion(driver)
+        choices = driver.map.keys()
+        print("choices are " + repr(choices))
+        target = random.choice(choices)
         switcher = True
         while switcher:
             path = DJK(driver, target)
