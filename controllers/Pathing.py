@@ -4,8 +4,8 @@
 from nav import Gps
 
 
-def djk(robot, target):  # pass the robot class and the target location
-    map = robot.map  # easier access to the current map of the level
+def djk(gps, target):  # pass the robot class and the target location
+    map = gps.map  # easier access to the current map of the level
     location = robot.location  # this is the starting location
     location = (location[0], location[1])  # The location needs to be a tuple of (x, y) to work as a key for the dicts.
     infinity = 10e300000  # this is how you make infinity in python
