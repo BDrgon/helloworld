@@ -6,7 +6,7 @@ from nav import Gps
 def DJK(robot, target):  # pass the robot class and the target location
     map = robot.map  # easier access to the current map of the level
     location = robot.location # this is the starting location
-    location = (location[0], location[1])
+    location = (location[0], location[1]) #  The location needs to be a tuple of (x, y) to work as a key for the dicts.
     infinity = 10e300000  # this is how you make inifinity in python
     unvisited = {}  # all points start in unvisited. as DJK works over to them they are moved out of unvisited and into frontier
     frontier = {}  # Frontier grabs the closest (shortest path length) point from unvisited and explores its options
@@ -20,7 +20,7 @@ def DJK(robot, target):  # pass the robot class and the target location
 
     loc = location  # loc is the current node. It start out on the current position
     while True:  # inifinite loops are ok because we will return out of it
-        if len(map[loc][0] > 0):  # if there are spaces we know we can move to from the current node
+        if len(map[loc][0]) > 0:  # if there are spaces we know we can move to from the current node
             for n in map[loc][0]:  # iterate through the spaces we can move to
                 if n in unvisited:  # filter for unvisited nodes only
                     if unvisited[n][1] > frontier[loc][1] + 1:  # If the tenative distance is smaller that the current
