@@ -1,3 +1,6 @@
+#TODO: store locations of packets and viruses and such
+#TODO: make sure importing this module works in practice
+#TODO: cut size of nav down by using functions.py and reusing code
 # TODO: store locations of packets and viruses and such
 # TODO: make sure importing this module works in practice
 import sys
@@ -236,7 +239,7 @@ class Gps:
 
     def step_backward(self, steps):
         self.robot.step_backward(steps)
-        self.check_scan
+        self.check_scan()
 
     def turn_left(self, degree):
         self.robot.turn_left(degree)
