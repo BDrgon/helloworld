@@ -33,7 +33,19 @@ class Gps:
             for entry in knowns:
                 if entry in unknowns:
                     self.map[key][2].remove(entry)
+    # not sure if cleanup works: here is an alternative simpler method with the same goal
+    def cleaner_cleanup(self): #this function guarantees each path or wall is two-way in the map
+        for key in self.map:
+            for connected in self.map[key][0]: #connected is movable to from key
+                if key in self.map[connected][2]: #if key is 'unknown' from connected's perspective
+                    self.map[connected][0].append(self.map[connected][2].pop(key)) #shift key to movable from unknown
+            for walled_off in self.map[key][1]: #walled_off is not movable from key
+                if key in self.map[walled_off][2] #if key is 'unknown' from walled_off's perspective
+                    self.map[walled_off][1].append(self.map[walled_off][2].pop(key)) #shift key to unmovable
 
+                
+                    
+            
     def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])
         if self.location[2] == "N":
