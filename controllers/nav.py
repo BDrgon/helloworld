@@ -3,6 +3,7 @@
 import sys
 
 
+
 class Gps:
     def __init__(self, bot):  # bot is the default robot object provided by MESA
         self.location = [0, 0, "N"]  # The robot starts at the origin, facing north
