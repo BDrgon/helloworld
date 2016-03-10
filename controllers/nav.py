@@ -18,21 +18,21 @@ class Gps:
         self.robot = bot  # Extend the default robot functions into nav.
 
     def cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
-        for key in self.map:  # iterate through keys(places we know we can travel to)
-            walls = self.map[key][1]  # List of known walls surrounding the given key
-            for wall in walls:  # iterate through these walls
-                if wall in self.map.keys():  # if the space on the other side of the wall is a key
-                    self.map[wall][1].append(key)  # add the original key to the current wall, as a wall
-            halls = self.map[key][0]
-            for hall in halls:
-                if hall in self.map.keys():
+        # if a known point of a key is also a key, add the first key as a point to the second key
+        for key in self.map.keys():
+            for hall in self.map[key][0]:
+                if key not in self.map[hall][0]:
                     self.map[hall][0].append(key)
-            # step 2: remove unknowns from map[2] if they exist in map[0] or map[1]
-            unknowns = self.map[key][2]
-            knowns = self.map[key][0] + self.map[key][1]
-            for entry in knowns:
-                if entry in unknowns:
-                    self.map[key][2].remove(entry)
+            for wall in self.map[key][1]:
+                if wall in self.map.keys():
+                    if key not in self.map[wall][1]:
+                        self.map[wall][1].append(key)
+
+        # remove known points from the list of unknown points
+        for key in self.map.keys():
+            for point in self.map[key][2]:
+                if point in self.map[key][0] + self.map[key][1]:
+                    self.map[key][2].remove(point)
 
     def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])
@@ -228,16 +228,13 @@ class Gps:
                 self.map.update(newentry)
             self.map[point][1].append((point[0]-1, point[1]))
         self.cleanup()
-        print("map: " + repr(self.map) + " location: " + repr(self.location))
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
-        print("step_forward(" + str(steps) + ")")
         self.robot.step_forward(steps)
         self.check_scan()
         return
 
     def step_backward(self, steps):
-        print("step_backward(" + str(steps) + ")")
         self.robot.step_backward(steps)
         self.check_scan
 
@@ -264,25 +261,21 @@ class Gps:
         self.location[2] = bearing
 
     def go_north(self):
-        print("go_north()")
         self.turn_to("N")
         self.step_forward(1)
         self.location[1] += 1
 
     def go_east(self):
-        print("go_east()")
         self.turn_to("E")
         self.step_forward(1)
         self.location[0] += 1
 
     def go_south(self):
-        print("go_south()")
         self.turn_to("S")
         self.step_forward(1)
         self.location[1] -= 1
 
     def go_west(self):
-        print("go_west")
         self.turn_to("W")
         self.step_forward(1)
         self.location[0] -= 1
@@ -304,9 +297,7 @@ class Gps:
         self.check_scan()
 
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
-        print "entered follow_path"
         for x in path[0]:
-            print x
             if x[0] == self.location[0] and x[1] == self.location[1]:
                 print "I did not move"
             elif x[0] == self.location[0] + 1:
