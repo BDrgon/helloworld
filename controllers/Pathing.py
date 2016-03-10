@@ -6,7 +6,7 @@ from nav import Gps
 
 def djk(gps, target):  # pass the robot class and the target location
     map = gps.map  # easier access to the current map of the level
-    location = robot.location  # this is the starting location
+    location = gps.location  # this is the starting location
     location = (location[0], location[1])  # The location needs to be a tuple of (x, y) to work as a key for the dicts.
     infinity = 10e300000  # this is how you make infinity in python
     unvisited = {}  # All points start in unvisited. as djk works they are moved out of unvisited and into frontier
@@ -14,7 +14,7 @@ def djk(gps, target):  # pass the robot class and the target location
     explored = {}  # Points guaranteed to have an optimal path after they have been through frontier
     for point in map:  # add all the key in the map to the unvisited list
         unvisited[point] = [[], infinity]
-    print robot.map
+    print gps.map
     print unvisited
     unvisited.pop(location)  # remove the starting location from list of unvisited points
     frontier[location] = [[location], 0]
@@ -43,5 +43,5 @@ def djk(gps, target):  # pass the robot class and the target location
                     minimum = unvisited[m][1]
             if minimum == infinity and len(unvisited) > 0:
                 return []  # if no path is found return an empty string. This should never happen in practice
-            frontier[loc] = unvisited.pop[loc]  # This is a vital line of code: it pulls a location
+            frontier[loc] = unvisited.pop(loc)  # This is a vital line of code: it pulls a location
         # from unvisited with an optimal path length and begins to explore from it
