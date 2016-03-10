@@ -37,11 +37,13 @@ class Gps:
     def cleaner_cleanup(self): #this function guarantees each path or wall is two-way in the map
         for key in self.map:
             for connected in self.map[key][0]: #connected is movable to from key
-                if key in self.map[connected][2]: #if key is 'unknown' from connected's perspective
-                    self.map[connected][0].append(self.map[connected][2].pop(key)) #shift key to movable from unknown
+                    #connected should be a key in map. If not, error earlier has been committed by scan (@line 213 or so)
+                    if key in self.map[connected][2]: #if key is 'unknown' from connected's perspective
+                        self.map[connected][0].append(self.map[connected][2].pop(key)) #shift key to movable from unknown
             for walled_off in self.map[key][1]: #walled_off is not movable from key
-                if key in self.map[walled_off][2] #if key is 'unknown' from walled_off's perspective
-                    self.map[walled_off][1].append(self.map[walled_off][2].pop(key)) #shift key to unmovable
+                if walled_off in self.map: #make sure walled_off is reachable
+                    if key in self.map[walled_off][2] #if key is 'unknown' from walled_off's perspective
+                        self.map[walled_off][1].append(self.map[walled_off][2].pop(key)) #shift key to unmovable
 
                 
                     
