@@ -1,6 +1,6 @@
 #TODO every function has a place - nav.py, paradigms, or a controller. Rename this to something that fits the fact that
 #literally the only thing in here is DJK, maybe "pathfinders" for when we never make a differeny pathfinder from DJK
-class bag_o_functions:
+class bag:
     map =  \
             {
                 (0, 0): [
@@ -33,7 +33,7 @@ class bag_o_functions:
     path will be represented as a series of nodes in an ordered list: each node is connected to the next in the list
     via an edge. The algorithm finds the shortest list of said nodes that accurately lead to the target node.
     """
-
+    @staticmethod
     def djk(location, map, target):  # full implementation of Dijkstra's algorithm over a dictionary object map
                         # The keys of the dictionary are nodes, and the entries nodes connected to key by an edge
                         # output is a list of instructions that define the shortest path from location to target

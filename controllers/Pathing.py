@@ -13,8 +13,7 @@ def DJK(robot, target):  # pass the robot class and the target location
     explored = {}  # Points guaranteed to have an optimal path after they have been through frontier
     for point in map:  # add all the key in the map to the unvisited list
         unvisited[point] = [[], infinity]
-    print robot.map
-    print unvisited
+    print "added points from map to unvisited"
     unvisited.pop(location)  # remove the starting location from list of unvisited points
     frontier[location] = [[location], 0]
 
@@ -31,6 +30,7 @@ def DJK(robot, target):  # pass the robot class and the target location
         if target in explored:  # if the target location has has a path found to it
             path = explored[target]  # create the path in a variable
             Gps.follow_path(path)  # run the follow path function with the djk
+            print "DJK has returned a path!"
             return explored[target]  # return the path to target, end DJK
         else:
             minimum = infinity
@@ -39,6 +39,7 @@ def DJK(robot, target):  # pass the robot class and the target location
                     loc = m
                     minimum = unvisited[m][1]
             if minimum == infinity and len(unvisited) > 0:
+                print "DJK has returned an empty list for " + repr(target) + " and position " + repr(robot.location)
                 return []  # if no path is found return an empty string. This should never happen in practice
-            frontier[loc] = unvisited.pop[loc]  # This is a vital line of code: it pulls a location
+            frontier[loc] = unvisited.pop(loc)  # This is a vital line of code: it pulls a location
                                                 # from unvisited with an optimal path length and begins to explore from it

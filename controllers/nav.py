@@ -20,6 +20,10 @@ class Gps:
             for wall in walls:  # iterate through these walls
                 if wall in self.map.keys():  # if the space on the other side of the wall is a key
                     self.map[wall][1].append(key)  # add the original key to the current wall, as a wall
+            halls = self.map[key][0]
+            for hall in halls:
+                if hall in self.map.keys():
+                    self.map[hall][0].append(key)
             # step 2: remove unknowns from map[2] if they exist in map[0] or map[1]
             unknowns = self.map[key][2]
             knowns = self.map[key][0] + self.map[key][1]
@@ -297,6 +301,7 @@ class Gps:
         self.check_scan()
 
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
+        print "entered follow_path"
         for x in path[0]:
             print x
             if x[0] == self.location[0] and x[1] == self.location[1]:
