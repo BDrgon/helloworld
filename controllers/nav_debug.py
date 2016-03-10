@@ -1,6 +1,6 @@
 from __future__ import absolute_import
 from controllers import nav
-#fake robot class for debugging literally everything
+# fake robot class for debugging literally everything
 
 
 class FakeRobot:
