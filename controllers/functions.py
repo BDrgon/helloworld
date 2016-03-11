@@ -84,7 +84,7 @@ def rotate(degree, point): #uses rotation matrices to rotate cartesian points ab
 
 
 def rotate_list(robot,points): #please please please use this technique in nav
-    location=robot.location
+    location = robot.location
     rdirection=location[2]
     from_north= \
         {
