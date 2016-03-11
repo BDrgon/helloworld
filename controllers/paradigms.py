@@ -36,8 +36,7 @@ def find_packets(Gps):
     if Gps.packet_num <= len(Gps.packets):
         if Gps.packets[Gps.packet_num] in Gps.map:
             return functions.djk(Gps, Gps.packets[Gps.packet_num])
-    else:
-        return find_unknowns(Gps)
+    return find_unknowns(Gps)
 
 
 
