@@ -44,21 +44,38 @@ def dijkstra(source, map, target):  # pass the robot class and the target locati
             if minimum == infinity and len(unvisited) > 0:
                 return []  # if no path is found return an empty string. This should never happen in practice
             if unvisited.has_key(loc):
-                frontier[loc] = unvisited.pop(loc) # This is a vital line of code: it pulls a location
-                                                # from unvisited with an optimal path length and begins to explore from it
-# was a nice test: notice (0,-1) has a map error related to (0,-2) that was the issue
-# mm = \
-#     {
-#         (0, 1): [[(0, 2), (0, 0)], [], [(1, 1), (-1, 1)]],
-#         (0, 0): [[(0, 1), (1, 0), (0, -1)], [(-1, 0)], []],
-#         (1, 0): [[(0, 0)], [(2, 0)], [(1, 1), (1, -1)]],
-#         (0, -1): [[(0, 0)], [(0, -2)], [(0, -2), (1, -1), (-1, -1)]],
-#         (0, 3): [[(0, 2)], [(0, 4)], [(1, 3), (-1, 3)]],
-#         (0, 2): [[(0, 3), (0, 1)], [], [(1, 2), (-1, 2)]]
-#     }
-# print repr(dijkstra((0,0), mm, (0,3)))
+                frontier[loc] = unvisited.pop(loc)  # This is a vital line of code: it pulls a location
+                                                    # from unvisited with an optimal path length and begins to explore from it
+
+
+#  a simple test case pulled from an actual instantiation of gps
+mm = \
+    {
+        (0, 1): [[(0, 2), (0, 0)], [], [(1, 1), (-1, 1)]],
+        (0, 0): [[(0, 1), (1, 0), (0, -1)], [(-1, 0)], []],
+        (1, 0): [[(0, 0)], [(2, 0)], [(1, 1), (1, -1)]],
+        (0, -1): [[(0, 0)], [(0, -2)], [(0, -2), (1, -1), (-1, -1)]],
+        (0, 3): [[(0, 2)], [(0, 4)], [(1, 3), (-1, 3)]],
+        (0, 2): [[(0, 3), (0, 1)], [], [(1, 2), (-1, 2)]]
+    }
+
+def find_shortest_path(gps, target_list):
+    min_path=[]
+    infinity = 10e300000
+    min_path_size=infinity
+    for t in target_list:
+        temp = djk(gps,t)
+       #temp = dijkstra((0,0),mm,t)
+        if len(temp)<min_path_size:
+            min_path=temp
+            min_path_size=len(temp)
+    return min_path
+#  print repr(find_shortest_path(0,[(0,3),(0,2)]))
 #TODO find a better home for these very useful functions
 #TODO use these functions to clean up nav considerably (option)
+
+
+
 def relative_to_cardinal(robot_direction,left_or_right_or_forward): #input cardinal facing (usually robot)
                                                                     #and left,right, or forward
                                                                     #outputs resulting cardinal direction
