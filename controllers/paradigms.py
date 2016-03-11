@@ -33,8 +33,9 @@ def find_packets(Gps):
     """
     :rtype: list
     """
-    if Gps.packets[Gps.packet_num] in Gps.map and not (Gps.packet_num>=len(Gps.packets)):
-        return functions.djk(Gps, Gps.packets[Gps.packet_num])
+    if Gps.packet_num <= len(Gps.packets):
+        if Gps.packets[Gps.packet_num] in Gps.map:
+            return functions.djk(Gps, Gps.packets[Gps.packet_num])
     else:
         return find_unknowns(Gps)
 

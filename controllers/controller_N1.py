@@ -1,4 +1,3 @@
-# from __future__ import absolute_import
 def control_robot(robot):
     from nav import Gps
     import paradigms
@@ -16,10 +15,8 @@ def control_robot(robot):
                 driver.robot.jump()
                 driver.packet_num+=1
     """ Control robot.
-
     Keyword arguments:
     robot -- Robot object that must be controlled through the maze.
-
     """
     print("reached the end of code")
     pass
