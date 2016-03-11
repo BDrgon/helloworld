@@ -4,11 +4,9 @@
 import random
 
 def djk(gps, target):  # pass the robot class and the target location
-    print('welcome to djk')
     map = gps.map  # easier access to the current map of the level
     location = gps.location # this is the starting location
     location = (location[0], location[1]) # location needs to be a tuple of (x, y) to work as a key for the dicts.
-    print('sup'+repr(location))
     infinity = 10e300000  # this is how you make infinity in python
     unvisited = {}  # all points start in unvisited. as djk works over to them they are moved out of unvisited and into frontier
     frontier = {}  # Frontier grabs the closest (shortest path length) point from unvisited and explores its options
@@ -50,9 +48,21 @@ def djk(gps, target):  # pass the robot class and the target location
                 print('explored: '+repr(explored))
 
 
-
 #TODO find a better home for these very useful functions
 #TODO use these functions to clean up nav considerably (option)
+def relative_to_cardinal(robot_direction,left_or_right_or_forward): #input cardinal facing (usually robot)
+                                                                    #and left,right, or forward
+                                                                    #outputs resulting cardinal direction
+    orderedDirectionList= ['E','N','W','S']
+    robot_num_direction = orderedDirectionList.index(robot_direction)
+    if left_or_right_or_forward == 'forward':
+        return orderedDirectionList[robot_num_direction]
+    elif left_or_right_or_forward == 'right':
+        return orderedDirectionList[(robot_num_direction+1)%4]
+    elif left_or_right_or_forward == 'left':
+        return orderedDirectionList[(robot_num_direction+3)%4]
+
+
 def rotate(degree, point): #uses rotation matrices to rotate cartesian points about the origin
     #all rotation matrices used are counterclockwise and at intervals of 90 degrees
     if degree==0:
