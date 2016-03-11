@@ -267,8 +267,13 @@ class Gps:
                 self.map.update(newentry)
             self.map[point][1].append((point[0]-1, point[1]))
         self.cleanup()
+        print "map:"
+        for key in self.map.keys():
+            print repr(key) + ": " + repr(self.map[key])
+        print "location:\n" + repr(self.location)
 
     def step_forward(self, steps):  # Encapsulating function for the default step_forward function
+
         self.robot.step_forward(steps)
         self.check_scan()
         return
@@ -284,7 +289,6 @@ class Gps:
         self.robot.turn_right(degree)
 
     def turn_to(self, bearing):
-        sys.stdout("turn_to(" + bearing + ")\n" )
         current = self.location[2]
 
         if bearing == current:
@@ -304,21 +308,25 @@ class Gps:
         self.turn_to("N")
         self.step_forward(1)
         self.location[1] += 1
+        self.check_scan()
 
     def go_east(self):
         self.turn_to("E")
         self.step_forward(1)
         self.location[0] += 1
+        self.check_scan()
 
     def go_south(self):
         self.turn_to("S")
         self.step_forward(1)
         self.location[1] -= 1
+        self.check_scan()
 
     def go_west(self):
         self.turn_to("W")
         self.step_forward(1)
         self.location[0] -= 1
+        self.check_scan()
 
     def turn_to(self, bearing):
         current = self.location[2]
