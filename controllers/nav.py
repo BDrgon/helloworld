@@ -19,7 +19,7 @@ class Gps:
             }
         self.robot = bot  # Extend the default robot functions into nav.
 
-    def cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
+    def old_cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
         # if a known point of a key is also a key, add the first key as a point to the second key
         for key in self.map.keys():
             for hall in self.map[key][0]:
@@ -36,16 +36,22 @@ class Gps:
                 if point in self.map[key][0] + self.map[key][1]:
                     self.map[key][2].remove(point)
  # not sure if cleanup works: here is an alternative simpler method with the same goal
-    def cleaner_cleanup(self):  # this function guarantees each path or wall is two-way in the map
+    def cleanup(self):  # this function guarantees each path or wall is two-way in the map
         for key in self.map:
             for connected in self.map[key][0]:  # connected is movable to from key
                     # connected should be a key in map. If not, error earlier has been committed by scan (@line 213 or so)
-                    if key in self.map[connected][2]:  # if key is 'unknown' from connected's perspective
-                        self.map[connected][0].append(self.map[connected][2].pop(key))  # shift key to movable
+                    if key in self.map[connected][2] and key not in self.map[connected][0]:  # if key is 'unknown' from connected's perspective
+                        i = self.map[connected][2].index(key)
+                        self.map[connected][0].append(self.map[connected][2].pop(i))  # shift key to movable
             for walled_off in self.map[key][1]:  # walled_off is not movable from key
                 if walled_off in self.map:  # make sure walled_off is reachable
-                    if key in self.map[walled_off][2]:  # if key is 'unknown' from walled_off's perspective
-                        self.map[walled_off][1].append(self.map[walled_off][2].pop(key))  # shift key to unmovable
+                    if key in self.map[walled_off][2] and key not in self.map[walled_off][0]:  # if key is 'unknown' from walled_off's perspective
+                        i = self.map[walled_off][2].index(key)
+                        self.map[walled_off][1].append(self.map[walled_off][2].pop(i))  # shift key to unmovable
+        for key in self.map:
+            for point in self.map[key][2]:
+                if point in self.map[key][0] + self.map[key][1]:
+                    self.map[key][2].remove(point)
 
     def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])

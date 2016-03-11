@@ -1,18 +1,19 @@
 # from __future__ import absolute_import
 def control_robot(robot):
     from nav import Gps
-    import random
     from functions import djk
-    from paradigms import random_motion
+    import paradigms
     driver = Gps(robot)
     driver.check_scan()
     driver.turn_to("S") #why?
     driver.turn_to("N")
-
-    while True:
-        target = random.choice()
+    print("is anybody still here")
+    for x in xrange(100):
+        target = paradigms.find_unknowns(driver)
+        print repr(target)
         path = djk(driver, target)
         if len(path) > 1:
+            print('Following Path: ' + '\n' + repr(path))
             driver.follow_path(path)
     """ Control robot.
 

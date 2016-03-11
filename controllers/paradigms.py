@@ -9,15 +9,16 @@ random_motion works
 """
 def random_motion(Gps):
     choices = Gps.map.keys()
-    print("choices are" + repr(choices))
-    return random.choice(choices) #Return a random key from the map
+    choice = random.choice(choices)
+    # print("choices is:"+"\n"+repr(choice)) not sure why it hates this line
+    return choice #Return a random key from the map
 
 
-def find_unknowns(robot): #return an essentially random key with an unknown adjacent to it
+def find_unknowns(Gps): #return an essentially random key with an unknown adjacent to it
     for key in Gps.map:
-        if len(key[2]) != 0:
+        if len(Gps.map[key][2]) != 0:
             return key
-    return random_motion(robot) #if no key has an unknown, revert to random motion paradigm
+    return random_motion(Gps) #if no key has an unknown, revert to random motion paradigm
 
 
 def find_viruses(robot):
