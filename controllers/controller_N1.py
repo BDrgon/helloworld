@@ -10,28 +10,10 @@ def control_robot(robot):
     driver.turn_to("N")
 
     while True:
-        choices = driver.map.keys()
-        print("choices are " + repr(choices))
-        target = random.choice(choices)
-        switcher = True
-        while switcher:
-            path = djk(driver, target)
-            if len(path) != 0:
-                switcher = False
-        print "path is " + repr(path)
-        path = path[0]
-        print "path is shortened to " + repr(path)
-        for point in path:
-            print "point is " + repr(point)
-            print "location is" + repr(driver.location)
-            if point[0] == driver.location[0]+1 and point[1] == driver.location[1]:
-                driver.go_east()
-            elif point[0] == driver.location[0]-1 and point[1] == driver.location[1]:
-                driver.go_west()
-            elif point[0] == driver.location[0] and point[1] == driver.location[1]+1:
-                driver.go_north()
-            elif point[0] == driver.location[0] and point[1] == driver.location[1]-1:
-                driver.go_south()
+        target = random.choice()
+        path = djk(driver, target)
+        if len(path) > 1:
+            driver.follow_path(path)
     """ Control robot.
 
     Keyword arguments:

@@ -101,7 +101,7 @@ def rotate_list(Gps,points): #please please please use this technique in nav
         }
     new_list=[]
     for point in points:
-        new_list.append(rotate(from_north[rdirection], points))
+        new_list.append(rotate(from_north[rdirection], point))
     return new_list
 
 
