@@ -31,14 +31,11 @@ def djk(gps, target):  # pass the robot class and the target location
         else:
             minimum = infinity
             for m in unvisited:
-                if unvisited[m] < minimum:  #
+                if unvisited[m] < minimum:
                     loc = m
                     minimum = unvisited[m][1]
-            # this is a test
-
-
-            # if minimum == infinity and len(unvisited) > 0:
-            #     return []  # if no path is found return an empty string. This should never happen in practice
+            if minimum == infinity and len(unvisited) > 0:
+                return []  # if no path is found return an empty string. This should never happen in practice
             if unvisited.has_key(loc):
                 frontier[loc] = unvisited.pop(loc) # This is a vital line of code: it pulls a location
                                                 # from unvisited with an optimal path length and begins to explore from it
