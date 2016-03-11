@@ -1,7 +1,6 @@
 # from __future__ import absolute_import
 def control_robot(robot):
     from nav import Gps
-    from Pathing import djk
     import random
     from functions import djk
     from paradigms import random_motion

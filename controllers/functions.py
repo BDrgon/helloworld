@@ -25,9 +25,9 @@ def djk(gps, target):  # pass the robot class and the target location
                         unvisited[n][1] = frontier[loc][1] + 1  # replace current with tentative
                         unvisited[n][0] = frontier[loc][0]  # take the path to loc
                         unvisited[n][0].append(n)  # add the final step of travel
-            explored[loc] = frontier.pop(loc)  # move the finalized path to the explored dictionary
+            explored[loc] = frontier.pop(loc) # move the finalized path to the explored dictionary
         if target in explored:  # if the target location has has a path found to it
-            return explored[target]  # return the path to target, end djk
+            return explored[target][0]  # return the path to target, end djk
         else:
             minimum = infinity
             for m in unvisited:
@@ -62,7 +62,16 @@ def relative_to_cardinal(robot_direction,left_or_right_or_forward): #input cardi
     elif left_or_right_or_forward == 'left':
         return orderedDirectionList[(robot_num_direction+3)%4]
 
+def something(Gps):
 
+     if direction == 'E':
+            delta =  (1, 0)
+        elif direction == 'N':
+            delta =  (0, 1)
+        elif direction == 'W':
+            delta = (-1, 0)
+        elif direction == 'S':
+            delta = (0, -1)
 def rotate(degree, point): #uses rotation matrices to rotate cartesian points about the origin
     #all rotation matrices used are counterclockwise and at intervals of 90 degrees
     if degree==0:
@@ -83,8 +92,8 @@ def rotate(degree, point): #uses rotation matrices to rotate cartesian points ab
     return new_point
 
 
-def rotate_list(robot,points): #please please please use this technique in nav
-    location=robot.location
+def rotate_list(Gps,points): #please please please use this technique in nav
+    location=Gps.location
     rdirection=location[2]
     from_north= \
         {
