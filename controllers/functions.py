@@ -62,16 +62,16 @@ def relative_to_cardinal(robot_direction,left_or_right_or_forward): #input cardi
     elif left_or_right_or_forward == 'left':
         return orderedDirectionList[(robot_num_direction+3)%4]
 
-def something(Gps):
-
-     if direction == 'E':
-            delta =  (1, 0)
-        elif direction == 'N':
-            delta =  (0, 1)
-        elif direction == 'W':
-            delta = (-1, 0)
-        elif direction == 'S':
-            delta = (0, -1)
+# def something(Gps):
+#
+#      if direction == 'E':
+#             delta =  (1, 0)
+#         elif direction == 'N':
+#             delta =  (0, 1)
+#         elif direction == 'W':
+#             delta = (-1, 0)
+#         elif direction == 'S':
+#             delta = (0, -1)
 def rotate(degree, point): #uses rotation matrices to rotate cartesian points about the origin
     #all rotation matrices used are counterclockwise and at intervals of 90 degrees
     if degree==0:

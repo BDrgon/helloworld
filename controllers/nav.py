@@ -208,27 +208,27 @@ class Gps:
                 elif right_point in self.map[point][2]:
                     x = True  # scanright
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_RIGHT))
-    def scanner(self, scan_direction):
-        translation_from_origin=(self.location[0], self.location[1])
-        robot_north= (self.location[2])
-        if scan_direction == 'left':
-            dist = self.robot.sense_steps(self.robot.SENSOR_LEFT)
-        if scan_direction == 'right':
-            dist = self.robot.sense_steps(self.robot.SENSOR_RIGHT)
-        if scan_direction == 'forward':
-            dist = self.robot.sense_steps(self.robot.SENSOR_FORWARD)
-        if dist == 0:
-            return
-        true_direction=functions.relative_to_cardinal(robot_north, scan_direction)
-        if true_direction == 'E':
-            delta =  (1, 0)
-        elif true_direction == 'N':
-            delta =  (0, 1)
-        elif true_direction == 'W':
-            delta = (-1, 0)
-        elif true_direction == 'S':
-            delta = (0, -1)
-        for x in xrange(1, dist):
+    # def scanner(self, scan_direction):
+    #     translation_from_origin=(self.location[0], self.location[1])
+    #     robot_north= (self.location[2])
+    #     if scan_direction == 'left':
+    #         dist = self.robot.sense_steps(self.robot.SENSOR_LEFT)
+    #     if scan_direction == 'right':
+    #         dist = self.robot.sense_steps(self.robot.SENSOR_RIGHT)
+    #     if scan_direction == 'forward':
+    #         dist = self.robot.sense_steps(self.robot.SENSOR_FORWARD)
+    #     if dist == 0:
+    #         return
+    #     true_direction=functions.relative_to_cardinal(robot_north, scan_direction)
+    #     if true_direction == 'E':
+    #         delta =  (1, 0)
+    #     elif true_direction == 'N':
+    #         delta =  (0, 1)
+    #     elif true_direction == 'W':
+    #         delta = (-1, 0)
+    #     elif true_direction == 'S':
+    #         delta = (0, -1)
+    #     for x in xrange(1, dist):
 
 
 
