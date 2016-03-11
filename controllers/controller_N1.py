@@ -1,20 +1,20 @@
 # from __future__ import absolute_import
 def control_robot(robot):
     from nav import Gps
-    from virus import Vps
     import paradigms
     driver = Gps(robot)
-    vdriver = Vps(robot, driver)
-    vdriver.update_viruses()
     driver.check_scan()
-    driver.turn_to("S")
+    driver.turn_to("S") #why?
     driver.turn_to("N")
     while True:
-        path = paradigms.find_viruses(vdriver, driver)
+        path = paradigms.find_packets(driver)
         if len(path) > 1:
             print repr(path[len(path)-1])
             print('Following Path: ' + '\n' + repr(path))
             driver.follow_path(path)
+            if path[len(path)-1] in driver.packets and driver.packet_num<=len(driver.packets):
+                driver.robot.jump()
+                driver.packet_num+=1
     """ Control robot.
 
     Keyword arguments:

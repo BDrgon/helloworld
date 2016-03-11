@@ -26,9 +26,11 @@ class Gps:
         # print "virus list?: " + "\n"+repr(raw_viruses)
 
 
+
     def clean_packets(self): #convert to tuplesa
         for p in self.packets:
-            self.packets[p] = (self.packets[p][0], self.packets[p][1])
+            self.packets[p] = (int(self.packets[p][0]), int(self.packets[p][1]))
+        print ("checking packets: "+"\n"+repr(self.packets))
     def old_cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
         # if a known point of a key is also a key, add the first key as a point to the second key
         for key in self.map.keys():

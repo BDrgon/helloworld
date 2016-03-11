@@ -5,9 +5,9 @@
 #It will run to it and eat it immediately
 #Once all the packets are eaten, perhaps it goes for viruses next?
 #TODO figure out how to replace packets with viruses at highest priority once their are no packets left
-#TODO figure out a sensible way to continue to sense and store viruses
-#anyways, the idea is that the packets are the most valuable thing the robot can find
+#anyways, the idea is that the packets need to be found before all the viruses are
 #And mapping the place is integral to getting the packets: hence unknowns over viruses in the beginning
+#although really, unknowns are the most valuable: they allow us to get the rest, just not priority in search
 
 
 def control_robot(robot):

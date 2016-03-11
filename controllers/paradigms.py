@@ -30,9 +30,14 @@ def find_unknowns(Gps): #return an essentially random key with an unknown adjace
         return random_motion(Gps) #if no key has an unknown, revert to random motion paradigm
 
 def find_packets(Gps):
-    if Gps.packets[Gps.packet_num] in Gps.map and not (Gps.packet_num >=len(Gps.packets)):
-        Gps.packet_num+=1
+    """
+    :rtype: list
+    """
+    if Gps.packets[Gps.packet_num] in Gps.map and not (Gps.packet_num>=len(Gps.packets)):
         return functions.djk(Gps, Gps.packets[Gps.packet_num])
+    else:
+        return find_unknowns(Gps)
+
 
 
 def find_viruses(Vps, Gps):  #return the closest reachable virus and resense for viruses when necessary
