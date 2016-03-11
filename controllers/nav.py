@@ -18,7 +18,17 @@ class Gps:
                 ]
             }
         self.robot = bot  # Extend the default robot functions into nav.
+        self.packets=bot.sense_packets()
+        self.clean_packets()
+        self.packet_num=1  #the only packet available for pickup is packet_num
+        # raw_viruses=bot.sense_viruses()
+        # print "packet dict: " + "\n"+repr(raw_packets)
+        # print "virus list?: " + "\n"+repr(raw_viruses)
 
+
+    def clean_packets(self): #convert to tuplesa
+        for p in self.packets:
+            self.packets[p] = (self.packets[p][0], self.packets[p][1])
     def old_cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
         # if a known point of a key is also a key, add the first key as a point to the second key
         for key in self.map.keys():

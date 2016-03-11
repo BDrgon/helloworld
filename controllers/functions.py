@@ -118,9 +118,8 @@ def rotate(degree, point): #uses rotation matrices to rotate cartesian points ab
     return new_point
 
 
-def rotate_list(Gps,points): #please please please use this technique in nav
-    location=Gps.location
-    rdirection=location[2]
+def rotate_list(gdriver, points): #please please please use this technique in nav
+    rdirection=gdriver.location[2]
     from_north= \
         {
             'N':0,
@@ -139,8 +138,8 @@ def translate(vector,point):
     return new_point
 
 
-def translate_list(robot,points):
-    location=robot.location
+def translate_list(Gps,points):
+    location=Gps.location
     vector=(location[0],location[1])
     new_list=[]
     for point in points:
