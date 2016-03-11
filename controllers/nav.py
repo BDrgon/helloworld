@@ -4,8 +4,7 @@
 # TODO: store locations of packets and viruses and such
 # TODO: make sure importing this module works in practice
 import sys
-
-
+import functions
 
 class Gps:
     def __init__(self, bot):  # bot is the default robot object provided by MESA
@@ -36,6 +35,17 @@ class Gps:
             for point in self.map[key][2]:
                 if point in self.map[key][0] + self.map[key][1]:
                     self.map[key][2].remove(point)
+ # not sure if cleanup works: here is an alternative simpler method with the same goal
+    def cleaner_cleanup(self):  # this function guarantees each path or wall is two-way in the map
+        for key in self.map:
+            for connected in self.map[key][0]:  # connected is movable to from key
+                    # connected should be a key in map. If not, error earlier has been committed by scan (@line 213 or so)
+                    if key in self.map[connected][2]:  # if key is 'unknown' from connected's perspective
+                        self.map[connected][0].append(self.map[connected][2].pop(key))  # shift key to movable
+            for walled_off in self.map[key][1]:  # walled_off is not movable from key
+                if walled_off in self.map:  # make sure walled_off is reachable
+                    if key in self.map[walled_off][2]:  # if key is 'unknown' from walled_off's perspective
+                        self.map[walled_off][1].append(self.map[walled_off][2].pop(key))  # shift key to unmovable
 
     def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])
@@ -198,6 +208,32 @@ class Gps:
                 elif right_point in self.map[point][2]:
                     x = True  # scanright
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_RIGHT))
+    # def scanner(self, scan_direction):
+    #     translation_from_origin=(self.location[0], self.location[1])
+    #     robot_north= (self.location[2])
+    #     if scan_direction == 'left':
+    #         dist = self.robot.sense_steps(self.robot.SENSOR_LEFT)
+    #     if scan_direction == 'right':
+    #         dist = self.robot.sense_steps(self.robot.SENSOR_RIGHT)
+    #     if scan_direction == 'forward':
+    #         dist = self.robot.sense_steps(self.robot.SENSOR_FORWARD)
+    #     if dist == 0:
+    #         return
+    #     true_direction=functions.relative_to_cardinal(robot_north, scan_direction)
+    #     if true_direction == 'E':
+    #         delta =  (1, 0)
+    #     elif true_direction == 'N':
+    #         delta =  (0, 1)
+    #     elif true_direction == 'W':
+    #         delta = (-1, 0)
+    #     elif true_direction == 'S':
+    #         delta = (0, -1)
+    #     for x in xrange(1, dist):
+
+
+
+
+
 
     def scan(self, cardinal, steps):
         point = (self.location[0], self.location[1])
@@ -254,6 +290,7 @@ class Gps:
 
     def turn_to(self, bearing):
         current = self.location[2]
+
         if bearing == current:
             return # do nothing
         # conditions that result in turning left
@@ -308,7 +345,7 @@ class Gps:
         self.check_scan()
 
     def follow_path(self, path):  # This is not complete its just pseudocode-ish and we need to define cardinal moves
-        for x in path[0]:
+        for x in path:
             if x[0] == self.location[0] and x[1] == self.location[1]:
                 print "I did not move"
             elif x[0] == self.location[0] + 1:
