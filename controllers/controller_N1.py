@@ -11,7 +11,7 @@ def control_robot(robot):
             print repr(path[len(path)-1])
             print('Following Path: ' + '\n' + repr(path))
             driver.follow_path(path)
-            if path[len(path)-1] in driver.packets and driver.packet_num<=len(driver.packets):
+            if path[len(path)-1] == driver.packets[driver.packet_num] and driver.packet_num<=len(driver.packets):
                 driver.robot.jump()
                 driver.packet_num+=1
     """ Control robot.
