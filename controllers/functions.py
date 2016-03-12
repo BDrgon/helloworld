@@ -7,11 +7,10 @@ def djk(gps, target):
     map = gps.map  # easier access to the current map of the level
     location = gps.location # this is the starting location
     location = (location[0], location[1]) # location needs to be a tuple of (x, y) to work as a key for the dicts.
-    return dijkstra(location, map, target)
+    return dijkstra(map, location, target)
 
 
-def dijkstra(source, map, target):  # pass the robot class and the target location
-
+def dijkstra(map, source, target):  # pass the robot class and the target location
     infinity = 10e300000  # this is how you make infinity in python
     unvisited = {}  # all points start in unvisited. as djk works over to them they are moved out of unvisited and into frontier
     frontier = {}  # Frontier grabs the closest (shortest path length) point from unvisited and explores its options
@@ -49,26 +48,26 @@ def dijkstra(source, map, target):  # pass the robot class and the target locati
 
 
 #  a simple test case pulled from an actual instantiation of gps
-mm = \
-    {
-        (0, 1): [[(0, 2), (0, 0)], [], [(1, 1), (-1, 1)]],
-        (0, 0): [[(0, 1), (1, 0), (0, -1)], [(-1, 0)], []],
-        (1, 0): [[(0, 0)], [(2, 0)], [(1, 1), (1, -1)]],
-        (0, -1): [[(0, 0)], [(0, -2)], [(0, -2), (1, -1), (-1, -1)]],
-        (0, 3): [[(0, 2)], [(0, 4)], [(1, 3), (-1, 3)]],
-        (0, 2): [[(0, 3), (0, 1)], [], [(1, 2), (-1, 2)]]
-    }
+# mm = \
+#     {
+#         (0, 1): [[(0, 2), (0, 0)], [], [(1, 1), (-1, 1)]],
+#         (0, 0): [[(0, 1), (1, 0), (0, -1)], [(-1, 0)], []],
+#         (1, 0): [[(0, 0)], [(2, 0)], [(1, 1), (1, -1)]],
+#         (0, -1): [[(0, 0)], [(0, -2)], [(0, -2), (1, -1), (-1, -1)]],
+#         (0, 3): [[(0, 2)], [(0, 4)], [(1, 3), (-1, 3)]],
+#         (0, 2): [[(0, 3), (0, 1)], [], [(1, 2), (-1, 2)]]
+#     }
 
 def find_shortest_path(gps, target_list):
     min_path=[]
     infinity = 10e300000
     min_path_size=infinity
     for t in target_list:
-        temp = djk(gps,t)
-       #temp = dijkstra((0,0),mm,t)
-        if len(temp)<min_path_size:
-            min_path=temp
-            min_path_size=len(temp)
+        temp_path = djk(gps,t)
+       #temp_path = dijkstra((0,0),mm,t)
+        if len(temp_path)<min_path_size:
+            min_path=temp_path
+            min_path_size=len(temp_path)
     return min_path
 #  print repr(find_shortest_path(0,[(0,3),(0,2)]))
 #TODO find a better home for these very useful functions
@@ -100,9 +99,7 @@ def relative_to_cardinal(robot_direction,left_or_right_or_forward): #input cardi
 #             delta = (0, -1)
 def rotate(degree, point): #uses rotation matrices to rotate cartesian points about the origin
     #all rotation matrices used are counterclockwise and at intervals of 90 degrees
-    if degree==0:
-        return point
-    elif degree==90: #choose the right rotation matrix if rotation is needed
+    if degree==90: #choose the right rotation matrix if rotation is needed
         R= [[0 ,-1],
             [1 , 0]]
     elif degree==180:
@@ -114,15 +111,16 @@ def rotate(degree, point): #uses rotation matrices to rotate cartesian points ab
     modifiable_point=[]
     modifiable_point.append(point[0]*R[0][0]+point[1]*R[0][1])
     modifiable_point.append(point[0]*R[1][0]+point[1]*R[1][1])
-    new_point=(modifiable_point[0],modifiable_point[0])
+    new_point=(modifiable_point[0],modifiable_point[1])
     return new_point
 
 
 def rotate_list(gdriver, points): #please please please use this technique in nav
     rdirection=gdriver.location[2]
+    if rdirection == 'N':
+        return points
     from_north= \
         {
-            'N':0,
             'W':90,
             'S':180,
             'E':270
@@ -133,15 +131,20 @@ def rotate_list(gdriver, points): #please please please use this technique in na
     return new_list
 
 
-def translate(vector,point):
+def translate(point, vector):
     new_point=(point[0]+vector[0],point[1]+vector[1])
     return new_point
 
 
-def translate_list(Gps,points):
-    location=Gps.location
+def translate_list(gdriver, points):
+    location=gdriver.location
     vector=(location[0],location[1])
     new_list=[]
     for point in points:
-        new_list.append(translate(vector,point))
+        new_list.append(translate(point, vector))
     return new_list
+
+def square_the_circle():
+    #TODO start with (0,0) and 10, generate a circle identical to the virus_sense
+    origin=(0,0)
+    radius=10

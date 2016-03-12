@@ -7,7 +7,6 @@ def control_robot(robot):
     driver.turn_to("N")
     while True:
         path = paradigms.find_packets(driver)
-        print "wtf+ "+repr(path)
         if len(path) > 1:
             print repr(path[len(path)-1])
             print('Following Path: ' + '\n' + repr(path))
