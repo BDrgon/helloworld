@@ -2,7 +2,7 @@
 #TODO: make sure importing this module works in practice
 #TODO: cut size of nav down by using functions.py and reusing code
 # TODO: store locations of packets and viruses and such
-# TODO: make sure importing this module works in practice
+# TODO:
 import sys
 import functions
 
@@ -30,6 +30,7 @@ class Gps:
         for p in self.packets:
             self.packets[p] = (int(self.packets[p][0]), int(self.packets[p][1]))
         print ("checking packets: "+"\n"+repr(self.packets))
+
     def old_cleanup(self):  # This function will run on every map update in order to clean up inconsistencies in the map
         # if a known point of a key is also a key, add the first key as a point to the second key
         for key in self.map.keys():
@@ -47,6 +48,7 @@ class Gps:
                 if point in self.map[key][0] + self.map[key][1]:
                     self.map[key][2].remove(point)
  # not sure if cleanup works: here is an alternative simpler method with the same goal
+
     def cleanup(self):  # this function guarantees each path or wall is two-way in the map
         for key in self.map:
             for connected in self.map[key][0]:  # connected is movable to from key
@@ -233,6 +235,7 @@ class Gps:
                 elif right_point in self.map[point][2]:
                     x = True  # scanright
                     self.scan("N", self.robot.sense_steps(self.robot.SENSOR_RIGHT))
+
     # def scanner(self, scan_direction):
     #     translation_from_origin=(self.location[0], self.location[1])
     #     robot_north= (self.location[2])
