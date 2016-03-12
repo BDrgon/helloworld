@@ -66,7 +66,7 @@ class Gps:
             if len(self.map[key][0] + self.map[key][1] + self.map[key][2]):
                 for list in range(len(self.map[key])):
                     newlist = []
-                    for item in list:
+                    for item in self.map[key][list]:
                         if item not in newlist:
                             newlist.append(item)
                     self.map[key][list] = newlist
