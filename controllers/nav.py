@@ -63,6 +63,14 @@ class Gps:
             for point in self.map[key][2]:
                 if point in self.map[key][0] + self.map[key][1]:
                     self.map[key][2].remove(point)
+            if len(self.map[key][0] + self.map[key][1] + self.map[key][2]):
+                for list in range(len(self.map[key])):
+                    newlist = []
+                    for item in list:
+                        if item not in newlist:
+                            newlist.append(item)
+                    self.map[key][list] = newlist
+
 
     def check_scan(self):  # Check if it is necessary to scan in each direction. If so, scan in those directions
         pos = (self.location[0], self.location[1])
