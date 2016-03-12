@@ -65,7 +65,7 @@ class Gps:
             for point in self.map[key][2]:
                 if point in self.map[key][0] + self.map[key][1]:
                     self.map[key][2].remove(point)
-            if len(self.map[key][0] + self.map[key][1] + self.map[key][2]):
+            if len(self.map[key][0] + self.map[key][1] + self.map[key][2]) > 4:
                 for list in range(len(self.map[key])):
                     newlist = []
                     for item in self.map[key][list]:
