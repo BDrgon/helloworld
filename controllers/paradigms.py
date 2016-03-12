@@ -39,19 +39,15 @@ def find_packets(Gps):
 
 
 
-def find_viruses(Vps, Gps):  #return the closest reachable virus and resense for viruses when necessary
+def find_viruses(Vps, Gps):  #return the closest reachable virus. Gps will resense for viruses when necessary
     reachable_v=[]
     for v in Vps.virus_list:
         if v in Gps.map:
             reachable_v.append(v)
     if len(reachable_v)>0:
         path= functions.find_shortest_path(Gps, reachable_v)
-        Vps.remove_virus(path[len(path) - 1])
-        if len(reachable_v)==0:
-            Vps.update_viruses()
         return path
     else:
-        Vps.update_viruses()
         return find_unknowns(Gps)
 
 

@@ -99,6 +99,7 @@ def relative_to_cardinal(robot_direction,left_or_right_or_forward): #input cardi
 #             delta = (0, -1)
 def rotate(degree, point): #uses rotation matrices to rotate cartesian points about the origin
     #all rotation matrices used are counterclockwise and at intervals of 90 degrees
+    #It will not rotate correctly if degree is not 0, 90, 180, 270, or a multiple of 360
     if degree==90: #choose the right rotation matrix if rotation is needed
         R= [[0 ,-1],
             [1 , 0]]
@@ -108,27 +109,33 @@ def rotate(degree, point): #uses rotation matrices to rotate cartesian points ab
     elif degree==270:
         R= [[0 , 1],
             [-1, 0]]
+    else:
+        return point # don't continue if you aren't going to end up doing anything
     modifiable_point=[]
-    modifiable_point.append(point[0]*R[0][0]+point[1]*R[0][1])
-    modifiable_point.append(point[0]*R[1][0]+point[1]*R[1][1])
-    new_point=(modifiable_point[0],modifiable_point[1])
-    return new_point
-
-
-def rotate_list(gdriver, points): #please please please use this technique in nav
-    rdirection=gdriver.location[2]
-    if rdirection == 'N':
+    modifiable_point.append(point[0]*R[0][0]+point[1]*R[0][1])  # generate rotated x value
+    modifiable_point.append(point[0]*R[1][0]+point[1]*R[1][1])  # generate rotated y value
+    new_point=(modifiable_point[0],modifiable_point[1])  #convert the list-point into a 2-tuple
+    return new_point  # return the new and improved rotated 2-tuple point
+def rotate_list(degree, points):
+    new_list=[]
+    if degree==0: #don't continue if you aren't going to end up doing anything
         return points
+    for point in points:
+        new_list.append(rotate(degree, point)) #rotate each point
+    return new_list  #return new and improved point list where each point has rotated correctly
+
+def rotate_list_north(gdriver, points): #please please please use this technique in nav
+    rdirection=gdriver.location[2]
+    if rdirection == 'N': #don't continue if you aren't going to end up doing anything
+        return points
+    #from_north answers the question 'how far away am I counterclockwise from north in degrees?'
     from_north= \
         {
-            'W':90,
+            'W':90, #no 'N' because we already tested for that. If it were in here, it'd be 'N':0
             'S':180,
             'E':270
         }
-    new_list=[]
-    for point in points:
-        new_list.append(rotate(from_north[rdirection], point))
-    return new_list
+    return rotate_list(from_north[rdirection], points) # return now accurate to be placed in map list of 2-tuple points
 
 
 def translate(point, vector):

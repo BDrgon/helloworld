@@ -4,6 +4,7 @@ def control_robot(robot):
     import paradigms
     driver = Gps(robot)
     vdriver = Vps(robot, driver)
+    driver.Vps = vdriver
     vdriver.update_viruses()
     driver.check_scan()
     driver.turn_to("S")
@@ -13,7 +14,12 @@ def control_robot(robot):
         if len(path) > 1:
             print repr(path[len(path)-1])
             print('Following Path: ' + '\n' + repr(path))
+            print('virus list: '+ '\n'+ repr(vdriver.virus_list))
             driver.follow_path(path)
+            if path[len(path)-1] in vdriver.virus_list:
+                vdriver.remove_virus(path[len(path)-1])
+                print('found virus at' + '\n' + repr(path[len(path)-1]))
+
     """ Control robot.
 
     Keyword arguments:
