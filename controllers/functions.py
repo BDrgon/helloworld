@@ -11,9 +11,9 @@ def djk(gps, target):  # pass the robot class and the target location
 
 def dijkstra(map, source, target): # pass a dictionary representation of a graph, source and target nodes
     infinity = 10e300000  # this is how you make infinity in python
-    unvisited = {}  # all points start in unvisited. as djk works over to them they are moved out of unvisited and into frontier
-    frontier = {}  # grabs the closest (shortest path length) point from unvisited and explores its options
-    explored = {}  # points guaranteed to have an optimal path after they have been through frontier
+    unvisited = {}  # all nodes of map start here
+    frontier = {}  # node of interest is moved from unvisited to frontier
+    explored = {}  # nodes guaranteed to have an optimal path after they have been through frontier
     for point in map:  # add all the key in the map to the unvisited list
         unvisited[point] = [[], infinity]
     unvisited.pop(source)  # remove the starting location from list of unvisited points
@@ -24,9 +24,9 @@ def dijkstra(map, source, target): # pass a dictionary representation of a graph
         if len(map[loc][0]) > 0:  # if there are spaces we know we can move to from the current node
             for n in map[loc][0]:  # iterate through the spaces we can move to
                 if n in unvisited:  # filter for unvisited nodes only
-                    if unvisited[n][1] > frontier[loc][1] + 1:  # If the tentative distance is smaller that the current
+                    if unvisited[n][1] > frontier[loc][1] + 1:  # if tentative distance is smaller than current,
                         unvisited[n][1] = frontier[loc][1] + 1  # replace current with tentative
-                        unvisited[n][0]=[]
+                        unvisited[n][0] = []  # initialize the new path as empty
                         for i in frontier[loc][0]:
                             unvisited[n][0].append(i)  # take the path to loc
                         unvisited[n][0].append(n)  # add the final step of travel
